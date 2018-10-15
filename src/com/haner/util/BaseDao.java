@@ -126,7 +126,7 @@ public abstract class BaseDao<E> {
 				// 构建实体类
 				E orgObj = entryBuild2(rs);
 				// 添加到集合中
-				list.add((E) orgObj);
+				list.add(orgObj);
 			}
 		}
 		close(conn, ps, rs); // 释放资源
@@ -205,7 +205,7 @@ public abstract class BaseDao<E> {
 		}
 		Connection conn = DBHelper.getConnectionForOracle();
 		PreparedStatement ps = conn.prepareStatement(sql);
-		int[] result = null;
+		int[] result;
 		for (int i = 0; i < objsList.size(); i++) {
 			Object[] os = objsList.get(i);
 			for (int j = 1; j <= os.length; j++) {
