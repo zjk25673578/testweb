@@ -369,17 +369,17 @@ public abstract class BaseDao<E> {
 	 * @param rs
 	 *            数据库取出的查询结果
 	 * @throws Exception
-	 * @since 5.0
+	 * @since 6.0
 	 */
 	private E entryBuild2(ResultSet rs) throws Exception {
 		ResultSetMetaData rsmd = rs.getMetaData();
 		// 获取总列数
 		int count = rsmd.getColumnCount();
 		E orgObj = clazz.newInstance();
+		Field field;
 		for (int i = 1; i <= count; i++) {
 			String colname = rsmd.getColumnName(i).toLowerCase();
 			String methodName = "set" + colname.substring(0, 1).toUpperCase() + colname.substring(1);
-			Field field = null;
 			try {
 				field = clazz.getDeclaredField(colname);
 			} catch (Exception e) {
@@ -388,37 +388,36 @@ public abstract class BaseDao<E> {
 			Class<?> clazzField = field.getType();
 			Method method = clazz.getMethod(methodName, clazzField);
 
-			Object obj = rs.getObject(i);
-
 			if (field.getType() == String.class) {
-				method.invoke(orgObj, obj);
+				method.invoke(orgObj, rs.getString(colname));
 			}
 			if (field.getType() == Byte.class) {
-				method.invoke(orgObj, obj == null ? obj : ((BigDecimal) obj).byteValue());
+				method.invoke(orgObj, rs.getByte(colname));
 			}
 			if (field.getType() == Short.class) {
-				method.invoke(orgObj, obj == null ? obj : ((BigDecimal) obj).shortValue());
+				method.invoke(orgObj, rs.getShort(colname));
 			}
 			if (field.getType() == Integer.class) {
-				method.invoke(orgObj, obj == null ? obj : ((BigDecimal) obj).intValue());
+				method.invoke(orgObj, rs.getInt(colname));
 			}
 			if (field.getType() == Long.class) {
-				method.invoke(orgObj, obj == null ? obj : ((BigDecimal) obj).longValue());
+				method.invoke(orgObj, rs.getLong(colname));
 			}
 			if (field.getType() == Double.class) {
-				method.invoke(orgObj, obj == null ? obj : ((BigDecimal) obj).doubleValue());
+				method.invoke(orgObj, rs.getDouble(colname));
 			}
 			if (field.getType() == Float.class) {
-				method.invoke(orgObj, obj == null ? obj : ((BigDecimal) obj).floatValue());
+				method.invoke(orgObj, rs.getFloat(colname));
 			}
 			if (field.getType() == BigDecimal.class) {
-				method.invoke(orgObj, obj);
+				method.invoke(orgObj, rs.getBigDecimal(colname));
 			}
 			if (field.getType() == BigInteger.class) {
-				method.invoke(orgObj, obj == null ? obj : ((BigDecimal) obj).toBigInteger());
+				Object obj = rs.getObject(colname);
+				method.invoke(orgObj, obj == null ? null : ((BigDecimal) obj).toBigInteger());
 			}
 			if (field.getType() == Date.class) {
-				method.invoke(orgObj, obj);
+				method.invoke(orgObj, rs.getTimestamp(colname));
 			}
 		}
 		return orgObj;

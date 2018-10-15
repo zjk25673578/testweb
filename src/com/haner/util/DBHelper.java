@@ -114,31 +114,23 @@ public class DBHelper {
      * @param rs 进行查询时返回的结果集的对象
      */
     public static void destroy(Statement sm, ResultSet rs) {
-        if (conn != null) {
-            try {
+        try {
+            if (conn != null) {
                 conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+                conn = null;
             }
-            conn = null;
-        }
-
-        if (sm != null) {
-            try {
+            if (sm != null) {
                 sm.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+                sm = null;
             }
-            sm = null;
+            if (rs != null) {
+                rs.close();
+                rs = null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        if (rs != null) {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            rs = null;
-        }
+
     }
 }

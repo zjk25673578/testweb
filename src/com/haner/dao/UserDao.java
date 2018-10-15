@@ -30,7 +30,7 @@ public class UserDao extends BaseDao<Appuser> {
                 user.setIds(resultSet.getInt("ids"));
                 user.setUsername(resultSet.getString("username"));
                 user.setRealname(resultSet.getString("realname"));
-                user.setBirthday(resultSet.getTimestamp("birthday"));
+                user.setCreatetime(resultSet.getTimestamp("createtime"));
                 user.setStatus(resultSet.getByte("status"));
                 list.add(user);
             }

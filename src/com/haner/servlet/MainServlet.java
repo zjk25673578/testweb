@@ -16,7 +16,14 @@ import java.util.List;
 public class MainServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserDao userDao = new UserDao();
-        List<Appuser> list = userDao.selectUsers();
+//        List<Appuser> list = userDao.selectUsers();
+        List<Appuser> list = null;
+        try {
+            list = userDao.query("select * from appuser");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         request.setAttribute("userList", list);
         request.getRequestDispatcher("/WEB-INF/page/main.jsp").forward(request, response);

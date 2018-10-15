@@ -6,7 +6,7 @@ public class Appuser {
     private Integer ids;
     private String username;
     private String realname;
-    private Date birthday;
+    private Date createtime;
     private Byte status;
 
     public Integer getIds() {
@@ -33,12 +33,12 @@ public class Appuser {
         this.realname = realname;
     }
 
-    public Date getBirthday() {
-        return birthday;
+    public Date getCreatetime() {
+        return createtime;
     }
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
     }
 
     public Byte getStatus() {
@@ -55,7 +55,7 @@ public class Appuser {
                 "ids=" + ids +
                 ", username='" + username + '\'' +
                 ", realname='" + realname + '\'' +
-                ", birthday='" + birthday + '\'' +
+                ", birthday='" + createtime + '\'' +
                 ", status=" + status +
                 '}';
     }
