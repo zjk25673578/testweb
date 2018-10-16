@@ -1,0 +1,27 @@
+登录页面
+    输入MYSQL数据库的
+        用户
+        密码
+        数据库地址
+        数据库名
+    进入页面显示输入的数据库的表的列表
+    点击表名可以进入列详情页面
+    点击列名显示列的注释和备注
+    mydb数据库用于存储从infomation_schema数据库中读取的数据库注释信息
+        表结构:
+            db_tables
+                ids         主键
+                tname       表名
+                ctime       创建时间
+                profunc     表对应项目中的功能
+                tcomment    表注释
+                related     关联表(跟哪个表有关系)
+                note        个人备注
+            db_columns
+                ids         主键
+                colname     列名
+                coltype     列类型
+                clength     长度
+                related     关联的其他列
+                ccomment    列注释
+                note        个人备注
