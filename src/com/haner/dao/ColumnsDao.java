@@ -3,7 +3,6 @@ package com.haner.dao;
 import java.sql.Connection;
 
 import com.haner.model.Columns;
-import com.haner.model.Tables;
 import com.haner.util.BaseDao;
 
 public class ColumnsDao extends BaseDao<Columns> {

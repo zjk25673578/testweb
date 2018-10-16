@@ -19,6 +19,7 @@
                 note        个人备注
             db_columns
                 ids         主键
+                tname       对应的表名
                 colname     列名
                 coltype     列类型
                 clength     长度

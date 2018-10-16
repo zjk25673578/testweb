@@ -49,6 +49,7 @@ public class MvcUtil<T> {
 
     /**
      * 用于重定向和转发的
+     *
      * @param request
      * @param response
      */
@@ -68,6 +69,7 @@ public class MvcUtil<T> {
 
     /**
      * 转发
+     *
      * @param page
      * @throws ServletException
      * @throws IOException
@@ -78,6 +80,7 @@ public class MvcUtil<T> {
 
     /**
      * 重定向
+     *
      * @param page
      * @throws ServletException
      * @throws IOException
@@ -173,6 +176,7 @@ public class MvcUtil<T> {
 
     /**
      * 获取本地连接
+     *
      * @return
      */
     public Connection getLocalConnection() {
@@ -183,6 +187,7 @@ public class MvcUtil<T> {
 
     /**
      * 获取本地连接
+     *
      * @return
      */
     public DBConnection getDocConnection() {

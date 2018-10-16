@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.haner.dao.SourcedocDao;
 import com.haner.model.Columns;
 import com.haner.service.ColumnsService;
-import com.haner.service.TablesService;
 import com.haner.util.DBConnection;
 import com.haner.util.MvcUtil;
 

@@ -50,6 +50,7 @@ public class DBConstant {
 
     /**
      * 重复输出分隔符
+     *
      * @param count 重复次数
      * @return
      */

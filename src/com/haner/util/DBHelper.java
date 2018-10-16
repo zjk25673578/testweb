@@ -3,10 +3,7 @@ package com.haner.util;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-
-import static com.haner.util.DBConstant.*;
 
 /**
  * 数据库连接类, 通过这个类可以获取到数据库的连接对象Connection
