@@ -1,17 +1,16 @@
 package com.haner.servlet;
 
-import java.io.IOException;
-import java.sql.Connection;
+import com.haner.util.DBConnection;
+import com.haner.util.DBConstant;
+import com.haner.util.MvcUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.haner.util.DBConnection;
-import com.haner.util.DBConstant;
-import com.haner.util.MvcUtil;
+import java.io.IOException;
+import java.sql.Connection;
 
 @WebServlet("/Main")
 public class MainServlet extends HttpServlet {
@@ -25,15 +24,16 @@ public class MainServlet extends HttpServlet {
             request.setAttribute("dbConnection", docDb);
             conn = docDb.getConnection();
             if (conn != null) {
-                request.getSession().setAttribute("docConn", docDb);
+                request.getServletContext().setAttribute("docConn", docDb);
                 // request.setAttribute("msg", "目标数据库已经连接, 正在检索...");
                 // 连接本地数据库
                 DBConnection db = new DBConnection();
                 db.setUsername("root");
+                // db.setPassword("123456");
                 db.setDbtype(DBConstant.MYSQL);
                 db.setAddress("127.0.0.1");
                 Connection localdb = db.getConnection();
-                request.getSession().setAttribute("localdb", localdb);
+                request.getServletContext().setAttribute("localdb", localdb);
                 response.sendRedirect("TableList");
             } else {
                 request.setAttribute("msg", "数据库连接出了点问题");
