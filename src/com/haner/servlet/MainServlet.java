@@ -25,7 +25,7 @@ public class MainServlet extends HttpServlet {
             request.setAttribute("dbConnection", docDb);
             conn = docDb.getConnection();
             if (conn != null) {
-                request.getSession().setAttribute("docConn", docDb);
+                request.getServletContext().setAttribute("docConn", docDb);
                 // request.setAttribute("msg", "目标数据库已经连接, 正在检索...");
                 // 连接本地数据库
                 DBConnection db = new DBConnection();
@@ -33,7 +33,7 @@ public class MainServlet extends HttpServlet {
                 db.setDbtype(DBConstant.MYSQL);
                 db.setAddress("127.0.0.1");
                 Connection localdb = db.getConnection();
-                request.getSession().setAttribute("localdb", localdb);
+                request.getServletContext().setAttribute("localdb", localdb);
                 response.sendRedirect("TableList");
             } else {
                 request.setAttribute("msg", "数据库连接出了点问题");

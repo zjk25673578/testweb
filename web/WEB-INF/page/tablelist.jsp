@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>表信息</title>
     <link rel="stylesheet" href="${ctx}/css/global.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
 <a href="javascript:;">导出为WORD</a>
 <hr>
 <table>
-    <tr>
+    <thead>
         <td>数据来源</td>
         <td>表名</td>
         <td>创建时间</td>
@@ -20,11 +20,11 @@
         <td>关联其他表</td>
         <td>备注</td>
         <td>操作</td>
-    </tr>
+    </thead>
     <c:forEach items="${list}" var="tables">
-        <tr>
+        <tr onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
             <td>${tables.sche}</td>
-            <td><a href="TableDetail?tname=${tables.tname}">${tables.tname}</a></td>
+            <td><a href="TableDetail?tname=${tables.tname}" target="_blank">${tables.tname}</a></td>
             <td>${tables.ctime}</td>
             <td>${tables.profunc}</td>
             <td>${tables.tcomment}</td>

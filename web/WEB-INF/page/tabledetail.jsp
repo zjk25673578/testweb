@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>${tname}</title>
     <link rel="stylesheet" href="${ctx}/css/global.css">
 </head>
 <body>
@@ -9,11 +9,9 @@
 <a href="javascript:;">刷新这个表</a>
 <a href="Login">重新登录数据库</a>
 <hr>
+<h2>${tname}</h2>
 <table>
-    <tr>
-        <td rowspan="${fn:length(columnsList) + 1}">
-            <h3>${tname}</h3>
-        </td>
+    <thead>
         <td>列名</td>
         <td>数据类型</td>
         <td>数据最大长度</td>
@@ -21,9 +19,9 @@
         <td>注释</td>
         <td>备注</td>
         <td>操作</td>
-    </tr>
+    </thead>
     <c:forEach items="${columnsList}" var="columns">
-        <tr>
+        <tr onmouseover="this.style.backgroundColor='#ffff66';" onmouseout="this.style.backgroundColor='#d4e3e5';">
             <td>${columns.colname}</td>
             <td>${columns.coltype}</td>
             <td>${columns.clength}</td>

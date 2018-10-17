@@ -2,6 +2,7 @@ package com.haner.listener;
 
 import java.sql.Connection;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -32,6 +33,23 @@ public class SessionListener implements ServletContextListener,
          (the Web application) is undeployed or 
          Application Server shuts down.
       */
+        ServletContext application = sce.getServletContext();
+        Connection docConn = (Connection) application.getAttribute("docConn");
+        Connection localdb = (Connection) application.getAttribute("localdb");
+        try {
+            DBHelper.destroy(docConn, null, null);
+            DBHelper.destroy(localdb, null, null);
+            if (!docConn.isClosed()) {
+                String schema = docConn.getSchema();
+                System.out.println(schema + "连接已经关闭 !");
+            }
+            if (!localdb.isClosed()) {
+                String schema = localdb.getSchema();
+                System.out.println(schema + "连接已经关闭 !");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // -------------------------------------------------------
@@ -43,24 +61,8 @@ public class SessionListener implements ServletContextListener,
     }
 
     public void sessionDestroyed(HttpSessionEvent se) {
-        HttpSession session = se.getSession();
-        Connection docConn = (Connection) session.getAttribute("docConn");
-        Connection localdb = (Connection) session.getAttribute("localdb");
-        try {
-            DBHelper.destroy(docConn, null, null);
-            DBHelper.destroy(localdb, null, null);
-            if (docConn.isClosed()) {
-                String schema = docConn.getSchema();
-                System.out.println(schema + "连接已经关闭 !");
-            }
-            if (localdb.isClosed()) {
-                String schema = localdb.getSchema();
-                System.out.println(schema + "连接已经关闭 !");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         /* Session is destroyed. */
+        System.out.println("Session销毁");
     }
 
     // -------------------------------------------------------
