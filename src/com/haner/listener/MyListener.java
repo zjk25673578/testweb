@@ -1,23 +1,20 @@
 package com.haner.listener;
 
-import com.haner.util.DBHelper;
+import java.sql.Connection;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import javax.servlet.http.HttpSessionAttributeListener;
-import javax.servlet.http.HttpSessionBindingEvent;
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
-import java.sql.Connection;
+import javax.servlet.http.*;
+
+import com.haner.util.DBHelper;
 
 @WebListener
-public class MyListener implements ServletContextListener,
+public class SessionListener implements ServletContextListener,
         HttpSessionListener, HttpSessionAttributeListener {
 
     // Public constructor is required by servlet spec
-    public MyListener() {
+    public SessionListener() {
     }
 
     // -------------------------------------------------------
@@ -28,8 +25,6 @@ public class MyListener implements ServletContextListener,
          initialized(when the Web application is deployed). 
          You can initialize servlet context related data here.
       */
-
-        System.out.println("生成全局对象");
     }
 
     public void contextDestroyed(ServletContextEvent sce) {
@@ -37,9 +32,20 @@ public class MyListener implements ServletContextListener,
          (the Web application) is undeployed or 
          Application Server shuts down.
       */
-        ServletContext application = sce.getServletContext();
-        Connection docConn = (Connection) application.getAttribute("docConn");
-        Connection localdb = (Connection) application.getAttribute("localdb");
+    }
+
+    // -------------------------------------------------------
+    // HttpSessionListener implementation
+    // -------------------------------------------------------
+    public void sessionCreated(HttpSessionEvent se) {
+        /* Session is created. */
+        System.out.println("Session被创建");
+    }
+
+    public void sessionDestroyed(HttpSessionEvent se) {
+        HttpSession session = se.getSession();
+        Connection docConn = (Connection) session.getAttribute("docConn");
+        Connection localdb = (Connection) session.getAttribute("localdb");
         try {
             DBHelper.destroy(docConn, null, null);
             DBHelper.destroy(localdb, null, null);
@@ -54,16 +60,6 @@ public class MyListener implements ServletContextListener,
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    // -------------------------------------------------------
-    // HttpSessionListener implementation
-    // -------------------------------------------------------
-    public void sessionCreated(HttpSessionEvent se) {
-        /* Session is created. */
-    }
-
-    public void sessionDestroyed(HttpSessionEvent se) {
         /* Session is destroyed. */
     }
 
