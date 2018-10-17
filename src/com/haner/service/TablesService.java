@@ -25,17 +25,17 @@ public class TablesService {
     public int refreshTables() throws Exception {
         List<Tables> table_data = sourcedocDao.tableDatas();
         String insert_sql = "insert into db_tables (sche, tname, ctime, tcomment) values (?, ?, ?, ?)";
-        String update_sql = "update db_tables set sche=?, ctime=?, tcomment=? where tname=?";
-        String view_sql = "select 1 from db_tables where tname=?";
+        String update_sql = "update db_tables set ctime=?, tcomment=? where ids=?";
+        String view_sql = "select ids from db_tables where tname=? and sche=?";
         int r = 0;
         for (int i = 0; i < table_data.size(); i++) {
             Tables tables = table_data.get(i);
             System.out.println("正在操作" + tables.getTname() + "表");
-            Object o = tablesDao.getOne(view_sql, tables.getTname());
+            Object o = tablesDao.getOne(view_sql, tables.getTname(), tables.getSche()); // 获取的是主键
             if (o == null) {
                 r += tablesDao.update(insert_sql, tables.getSche(), tables.getTname(), tables.getCtime(), tables.getTcomment());
             } else {
-                r += tablesDao.update(update_sql, tables.getSche(), tables.getCtime(), tables.getTcomment(), tables.getTname());
+                r += tablesDao.update(update_sql, tables.getCtime(), tables.getTcomment(), o);
             }
         }
         return r;

@@ -3,6 +3,7 @@ package com.haner.model;
 public class Columns {
 
     private Integer ids;
+    private String sche;
     private String tname;
     private String colname;
     private String coltype;
@@ -87,5 +88,13 @@ public class Columns {
 
     public void setTname(String tname) {
         this.tname = tname;
+    }
+
+    public String getSche() {
+        return sche;
+    }
+
+    public void setSche(String sche) {
+        this.sche = sche;
     }
 }

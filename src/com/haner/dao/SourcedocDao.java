@@ -42,14 +42,17 @@ public class SourcedocDao {
         return list;
     }
 
-    public List<Columns> columnDatas(String tablename) throws Exception {
-        String sql = "SELECT TABLE_NAME, COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, COLUMN_COMMENT FROM `COLUMNS` WHERE TABLE_NAME=?";
+    public List<Columns> columnDatas(String sche, String tablename) throws Exception {
+        String sql = "SELECT TABLE_NAME, COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, COLUMN_COMMENT " +
+                "FROM `COLUMNS` WHERE TABLE_NAME=? AND TABLE_SCHEMA=?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, tablename);
+        ps.setString(2, sche);
         ResultSet rs = ps.executeQuery();
         List<Columns> list = new ArrayList<>();
         while (rs.next()) {
             Columns columns = new Columns();
+            columns.setSche(sche);
             columns.setTname(rs.getString("TABLE_NAME"));
             columns.setColname(rs.getString("COLUMN_NAME"));
             columns.setColtype(rs.getString("DATA_TYPE"));

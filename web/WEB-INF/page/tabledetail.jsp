@@ -6,7 +6,7 @@
 </head>
 <body>
 <a href="TableList">返回表</a>
-<a href="javascript:;">刷新这个表</a>
+<a href="RefreshTableCol?tname=${tname}">刷新这个表</a>
 <a href="Login">重新登录数据库</a>
 <hr>
 <h2>${tname}</h2>

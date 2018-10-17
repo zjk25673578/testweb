@@ -21,7 +21,7 @@ public class TestDemo {
                 System.out.println(list.get(i));
             }*/
 
-            List<Columns> list = sourcedocDao.columnDatas("st_user");
+            List<Columns> list = sourcedocDao.columnDatas("sche","st_user");
             for (int i = 0; i < list.size(); i++) {
                 System.out.println(list.get(i));
             }
