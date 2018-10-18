@@ -32,7 +32,7 @@ public class RefreshTableColServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        mvc.redirect("/TableDetail?tname=" + tname);
+        mvc.redirect("TableDetail?tname=" + tname);
 
     }
 

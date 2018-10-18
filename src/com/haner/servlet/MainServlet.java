@@ -25,7 +25,6 @@ public class MainServlet extends HttpServlet {
             conn = docDb.getConnection();
             if (conn != null) {
                 request.getServletContext().setAttribute("docConn", docDb);
-                // request.setAttribute("msg", "目标数据库已经连接, 正在检索...");
                 // 连接本地数据库
                 DBConnection db = new DBConnection();
                 db.setUsername("root");
@@ -36,7 +35,7 @@ public class MainServlet extends HttpServlet {
                 request.getServletContext().setAttribute("localdb", localdb);
                 response.sendRedirect("TableList");
             } else {
-                request.setAttribute("msg", "数据库连接出了点问题");
+                request.setAttribute("msg", "目标数据库连接出了点问题");
                 request.getRequestDispatcher("/WEB-INF/page/main.jsp").forward(request, response);
             }
         } catch (Exception e) {
