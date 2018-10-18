@@ -11,10 +11,7 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 
 /**
  * 此类用于以Model的形式直接接收前台传递的参数<br>
@@ -60,6 +57,7 @@ public class MvcUtil<T> {
      * @param dateFormat<br> 可传入一个日期格式化的类型<br>
      *                       如果和前台传入的参数格式不一致则会报错<br>
      *                       实体类中所有的日期类型都会按照此格式解析<br>
+     * @deprecated
      */
     public MvcUtil(String dateFormat) {
         this.dateFormat = dateFormat;
@@ -77,13 +75,31 @@ public class MvcUtil<T> {
     }
 
     /**
+     * 带Model的转发
+     * @param page
+     * @param map
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void forward(String page, Map<String, Object> map) throws ServletException, IOException {
+        Set<String> set = map.keySet();
+        Iterator<String> iterator = set.iterator();
+        while (iterator.hasNext()) {
+            String key = iterator.next();
+            Object value = map.get(key);
+            request.setAttribute(key, value);
+        }
+        forward(page);
+    }
+
+    /**
      * 重定向
      *
      * @param page
      * @throws ServletException
      * @throws IOException
      */
-    public void redirect(String page) throws ServletException, IOException {
+    public void redirect(String page) throws IOException {
         response.sendRedirect(page);
     }
 

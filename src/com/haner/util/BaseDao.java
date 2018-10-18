@@ -266,7 +266,7 @@ public abstract class BaseDao<E> {
      * @throws SQLException
      * @since 2.0
      */
-    private static void init2(PreparedStatement ps, Object... objs) throws SQLException {
+    private void init2(PreparedStatement ps, Object... objs) throws SQLException {
         if (objs != null && objs.length > 0) {
             for (int i = 1; i <= objs.length; i++) {
                 ps.setObject(i, objs[i - 1]);

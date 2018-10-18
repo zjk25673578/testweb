@@ -1,13 +1,13 @@
 package com.haner.service;
 
+import com.haner.dao.ColumnsDao;
+import com.haner.dao.SourcedocDao;
+import com.haner.model.Columns;
+
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import com.haner.dao.ColumnsDao;
-import com.haner.dao.SourcedocDao;
-import com.haner.model.Columns;
 
 public class ColumnsService {
 
@@ -23,12 +23,14 @@ public class ColumnsService {
         String sql = "select * from db_columns where sche=? and tname=?";
         List<Columns> list = columnsDao.query(sql, sche, tname);
         if (list == null || list.size() == 0) {
-            String sqlInsert = "insert into db_columns(sche, tname, colname, coltype, clength, ccomment) values (?, ?, ?, ?, ?, ?)";
+            String sqlInsert = "insert into db_columns(sche, tname, colname, coltype, " +
+                    "clength, ccomment) values (?, ?, ?, ?, ?, ?)";
             List<Columns> sourceColumns = sourcedocDao.columnDatas(sche, tname);
             List<Object[]> params = new ArrayList<>();
             for (int i = 0; i < sourceColumns.size(); i++) {
                 Columns col = sourceColumns.get(i);
-                Object[] os = {sche, col.getTname(), col.getColname(), col.getColtype(), col.getClength(), col.getCcomment()};
+                Object[] os = {sche, col.getTname(), col.getColname(),
+                        col.getColtype(), col.getClength(), col.getCcomment()};
                 params.add(os);
             }
             int[] results = columnsDao.updateBatch(sqlInsert, params);
@@ -39,17 +41,21 @@ public class ColumnsService {
     }
 
     public void refreshColumns(String tname, String sche) throws Exception {
-        String sqlInsert = "insert into db_columns(tname, colname, coltype, clength, ccomment) values (?, ?, ?, ?, ?)";
+        String sqlInsert = "insert into db_columns(sche, tname, colname, coltype, clength, ccomment) " +
+                "values (?, ?, ?, ?, ?, ?)";
         String sqlUpdate = "update db_columns set coltype=?, clength=?, ccomment=? where ids=?";
         String view_sql = "select ids from db_columns where sche=? and tname=? and colname=?";
         List<Columns> sourceColumns = sourcedocDao.columnDatas(sche, tname);
         for (int i = 0; i < sourceColumns.size(); i++) {
             Columns column = sourceColumns.get(i);
-            Object o = columnsDao.getOne(view_sql, sche, tname, column.getColname()); // 查询结果是当前数据的主键
-            if (o == null){
-                columnsDao.update(sqlInsert, tname, column.getColname(), column.getColtype(), column.getClength(), column.getCcomment());
+            // 查询结果是当前数据的主键
+            Object o = columnsDao.getOne(view_sql, sche, tname, column.getColname());
+            if (o == null) {
+                columnsDao.update(sqlInsert, sche, tname, column.getColname(), column.getColtype(),
+                        column.getClength(), column.getCcomment());
             } else {
-                columnsDao.update(sqlUpdate, column.getColtype(), column.getClength(), column.getCcomment(), o);
+                columnsDao.update(sqlUpdate, column.getColtype(), column.getClength(),
+                        column.getCcomment(), o);
             }
         }
     }
@@ -60,5 +66,25 @@ public class ColumnsService {
 
     public void setSourcedocDao(SourcedocDao sourcedocDao) {
         this.sourcedocDao = sourcedocDao;
+    }
+
+    public int deleteColumn(String ids) {
+        String sql = "delete from db_columns where ids=?";
+        int result = 0;
+        try {
+            result = columnsDao.update(sql, ids);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public void delCols() {
+        String sql = "delete from db_columns";
+        try {
+            columnsDao.update(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

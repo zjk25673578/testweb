@@ -1,18 +1,18 @@
 package com.haner.servlet;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.util.List;
+import com.haner.model.Tables;
+import com.haner.service.TablesService;
+import com.haner.util.MvcUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.haner.model.Tables;
-import com.haner.service.TablesService;
-import com.haner.util.MvcUtil;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet("/TableList")
 public class TableListServlet extends HttpServlet {
@@ -21,20 +21,26 @@ public class TableListServlet extends HttpServlet {
         MvcUtil mvc = new MvcUtil(request, response);
         // 本地需要存储数据的数据源
         Connection localdb = mvc.getLocalConnection();
-        if (localdb != null) {
+        String keywords = request.getParameter("keywords");
+        try {
+            if (localdb != null && !localdb.isClosed()) {
 
-            TablesService tablesService = new TablesService(localdb);
+                TablesService tablesService = new TablesService(localdb);
 
-            List<Tables> list = null;
-            try {
-                list = tablesService.tables();
-            } catch (Exception e) {
-                e.printStackTrace();
+                List<Tables> list = null;
+                try {
+                    list = tablesService.tables(keywords);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                request.setAttribute("keywords", keywords);
+                request.setAttribute("list", list);
+                mvc.forward("page/tablelist");
+            } else {
+                mvc.redirect("Login");
             }
-            request.setAttribute("list", list);
-            mvc.forward("page/tablelist");
-        } else {
-            mvc.redirect("Login");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

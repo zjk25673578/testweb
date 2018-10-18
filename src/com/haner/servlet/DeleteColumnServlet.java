@@ -1,8 +1,7 @@
 package com.haner.servlet;
 
-import com.haner.dao.SourcedocDao;
 import com.haner.service.ColumnsService;
-import com.haner.util.DBConnection;
+import com.haner.util.JsonUtil;
 import com.haner.util.MvcUtil;
 
 import javax.servlet.ServletException;
@@ -13,26 +12,24 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 
-@WebServlet("/RefreshTableCol")
-public class RefreshTableColServlet extends HttpServlet {
+@WebServlet("/DeleteColumn")
+public class DeleteColumnServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        MvcUtil mvc = new MvcUtil(request, response);
-        DBConnection dbConnection = mvc.getDocConnection();
-        Connection connection = mvc.getLocalConnection();
-        SourcedocDao sourcedocDao = new SourcedocDao(dbConnection);
-        ColumnsService columnsService = new ColumnsService(connection);
-        columnsService.setSourcedocDao(sourcedocDao);
-
+        String ids = request.getParameter("ids");
         String tname = request.getParameter("tname");
-
-        try {
-            columnsService.refreshColumns(tname, dbConnection.getDocDbname());
-        } catch (Exception e) {
-            e.printStackTrace();
+        MvcUtil mvc = new MvcUtil(request, response);
+        Connection connection = mvc.getLocalConnection();
+        ColumnsService columnsService = new ColumnsService(connection);
+        int result = columnsService.deleteColumn(ids);
+        if (result > 0) {
+            mvc.redirect("ColumnList?tname=" + tname);
+        } else {
+            try {
+                mvc.forward("page/error", JsonUtil.makeJson("errormsg", "删除失败"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-
-        mvc.redirect("ColumnList?tname=" + tname);
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

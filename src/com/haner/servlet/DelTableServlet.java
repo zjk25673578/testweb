@@ -1,8 +1,6 @@
 package com.haner.servlet;
 
-import com.haner.dao.SourcedocDao;
-import com.haner.service.ColumnsService;
-import com.haner.util.DBConnection;
+import com.haner.service.TablesService;
 import com.haner.util.MvcUtil;
 
 import javax.servlet.ServletException;
@@ -13,26 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 
-@WebServlet("/RefreshTableCol")
-public class RefreshTableColServlet extends HttpServlet {
+@WebServlet("/DelTable")
+public class DelTableServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         MvcUtil mvc = new MvcUtil(request, response);
-        DBConnection dbConnection = mvc.getDocConnection();
         Connection connection = mvc.getLocalConnection();
-        SourcedocDao sourcedocDao = new SourcedocDao(dbConnection);
-        ColumnsService columnsService = new ColumnsService(connection);
-        columnsService.setSourcedocDao(sourcedocDao);
+        TablesService tablesService = new TablesService(connection);
 
-        String tname = request.getParameter("tname");
+        tablesService.delTables();
 
-        try {
-            columnsService.refreshColumns(tname, dbConnection.getDocDbname());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        mvc.redirect("ColumnList?tname=" + tname);
-
+        mvc.redirect("TableList");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -1,11 +1,11 @@
 package com.haner.service;
 
-import java.sql.Connection;
-import java.util.List;
-
 import com.haner.dao.SourcedocDao;
 import com.haner.dao.TablesDao;
 import com.haner.model.Tables;
+
+import java.sql.Connection;
+import java.util.List;
 
 public class TablesService {
 
@@ -17,8 +17,15 @@ public class TablesService {
         tablesDao = new TablesDao(connection);
     }
 
-    public List<Tables> tables() throws Exception {
-        String sql = "select * from db_tables order by tname";
+    public List<Tables> tables(String keywords) throws Exception {
+        String sqlPlus = "";
+        if (keywords != null) {
+            sqlPlus = "where tname like ?";
+        }
+        String sql = "select * from db_tables " + sqlPlus + " order by tname";
+        if (keywords != null) {
+            return tablesDao.query(sql, "%" + keywords + "%");
+        }
         return tablesDao.query(sql);
     }
 
@@ -47,5 +54,25 @@ public class TablesService {
 
     public void setSourcedocDao(SourcedocDao sourcedocDao) {
         this.sourcedocDao = sourcedocDao;
+    }
+
+    public int deleteTable(String ids) {
+        String sql = "delete from db_tables where ids=?";
+        int result = 0;
+        try {
+            result = tablesDao.update(sql, ids);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public void delTables() {
+        String sql = "delete from db_tables";
+        try {
+            tablesDao.update(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

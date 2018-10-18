@@ -41,6 +41,7 @@ public class MyListener implements ServletContextListener,
         Connection docConn = (Connection) application.getAttribute("docConn");
         Connection localdb = (Connection) application.getAttribute("localdb");
         try {
+            System.out.println("正在关闭Connection连接");
             DBHelper.destroy(docConn, null, null);
             DBHelper.destroy(localdb, null, null);
             if (docConn.isClosed()) {
