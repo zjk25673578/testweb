@@ -1,5 +1,8 @@
 package com.haner.util;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -12,11 +15,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * 此类用于以Model的形式直接接收前台传递的参数<br>
@@ -185,7 +183,7 @@ public class MvcUtil<T> {
     }
 
     /**
-     * 获取本地连接
+     * 获取目标数据库连接
      *
      * @return
      */

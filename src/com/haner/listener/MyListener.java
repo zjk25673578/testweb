@@ -1,21 +1,23 @@
 package com.haner.listener;
 
-import java.sql.Connection;
+import com.haner.util.DBHelper;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import javax.servlet.http.*;
-
-import com.haner.util.DBHelper;
+import javax.servlet.http.HttpSessionAttributeListener;
+import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
+import java.sql.Connection;
 
 @WebListener
-public class SessionListener implements ServletContextListener,
+public class MyListener implements ServletContextListener,
         HttpSessionListener, HttpSessionAttributeListener {
 
     // Public constructor is required by servlet spec
-    public SessionListener() {
+    public MyListener() {
     }
 
     // -------------------------------------------------------
@@ -23,14 +25,16 @@ public class SessionListener implements ServletContextListener,
     // -------------------------------------------------------
     public void contextInitialized(ServletContextEvent sce) {
       /* This method is called when the servlet context is
-         initialized(when the Web application is deployed). 
+         initialized(when the Web application is deployed).
          You can initialize servlet context related data here.
       */
+
+        System.out.println("生成全局对象");
     }
 
     public void contextDestroyed(ServletContextEvent sce) {
-      /* This method is invoked when the Servlet Context 
-         (the Web application) is undeployed or 
+      /* This method is invoked when the Servlet Context
+         (the Web application) is undeployed or
          Application Server shuts down.
       */
         ServletContext application = sce.getServletContext();
@@ -39,11 +43,11 @@ public class SessionListener implements ServletContextListener,
         try {
             DBHelper.destroy(docConn, null, null);
             DBHelper.destroy(localdb, null, null);
-            if (!docConn.isClosed()) {
+            if (docConn.isClosed()) {
                 String schema = docConn.getSchema();
                 System.out.println(schema + "连接已经关闭 !");
             }
-            if (!localdb.isClosed()) {
+            if (localdb.isClosed()) {
                 String schema = localdb.getSchema();
                 System.out.println(schema + "连接已经关闭 !");
             }
@@ -57,12 +61,10 @@ public class SessionListener implements ServletContextListener,
     // -------------------------------------------------------
     public void sessionCreated(HttpSessionEvent se) {
         /* Session is created. */
-        System.out.println("Session被创建");
     }
 
     public void sessionDestroyed(HttpSessionEvent se) {
         /* Session is destroyed. */
-        System.out.println("Session销毁");
     }
 
     // -------------------------------------------------------
