@@ -34,7 +34,8 @@
             <td colspan="2">
                 <input type="submit" value="进入"/>
                 <input type="reset" value="重写"/>
-                <a href="SaveDBAccount">保存为常用数据库</a>
+                <label for="issave">保存为常用数据库</label>
+                <input id="issave" type="checkbox" name="issave"/>
             </td>
         </tr>
         <c:if test="${not empty msg}">

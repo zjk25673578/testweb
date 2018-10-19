@@ -5,7 +5,6 @@
     <title>表信息</title>
     <link rel="stylesheet" href="${ctx}/css/global.css">
     <script type="text/javascript" src="${ctx}/js/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="${ctx}/js/table.js"></script>
 </head>
 <body>
 <a href="RefreshTable">刷新数据</a>
