@@ -28,7 +28,7 @@ public class MainServlet extends HttpServlet {
                 // 连接本地数据库
                 DBConnection db = new DBConnection();
                 db.setUsername("root");
-                db.setPassword("123456");
+                // db.setPassword("123456");
                 db.setDbtype(DBConstant.MYSQL);
                 db.setAddress("127.0.0.1");
                 Connection localdb = db.getConnection();

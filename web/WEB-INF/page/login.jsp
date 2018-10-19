@@ -1,12 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>数据库登录</title>
+    <title>MYSQL数据库登录</title>
+    <script type="text/javascript" src="${ctx}/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="${ctx}/js/table.js"></script>
 </head>
 <body>
 <h1>输入相关信息</h1>
 <hr>
-<form action="${ctx}/Main" method="post">
+<form id="login-form" action="${ctx}/Main" method="post">
     <table>
         <tr>
             <td>用户名:</td>
@@ -22,20 +24,18 @@
         </tr>
         <tr>
             <td>数据库类型:</td>
-            <td>
-                <select name="dbtype">
-                    <option value="mysql" ${dbConnection.dbtype eq 'mysql' ? 'selected' : ''}>MYSQL</option>
-                    <option value="oracle" ${dbConnection.dbtype eq 'oracle' ? 'selected' : ''}>ORACLE</option>
-                </select>
-            </td>
+            <td><input type="text" name="dbtype" value="${empty dbConnection.dbtype ? 'mysql' : dbConnection.dbtype}"></td>
         </tr>
         <tr>
             <td>数据库名(实例名):</td>
             <td><input type="text" name="docDbname" value="${dbConnection.docDbname}"></td>
         </tr>
         <tr>
-            <td><input type="submit" value="进入"/></td>
-            <td><input type="reset" value="重写"/></td>
+            <td colspan="2">
+                <input type="submit" value="进入"/>
+                <input type="reset" value="重写"/>
+                <a href="SaveDBAccount">保存为常用数据库</a>
+            </td>
         </tr>
         <c:if test="${not empty msg}">
             <tr>
@@ -44,5 +44,7 @@
         </c:if>
     </table>
 </form>
+<h4>常用数据库</h4>
+
 </body>
 </html>
