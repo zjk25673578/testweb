@@ -3,7 +3,6 @@
 <head>
     <title>MYSQL数据库登录</title>
     <script type="text/javascript" src="${ctx}/js/jquery-3.2.1.min.js"></script>
-    <script type="text/javascript" src="${ctx}/js/table.js"></script>
 </head>
 <body>
 <h1>输入相关信息</h1>
@@ -35,7 +34,7 @@
                 <input type="submit" value="进入"/>
                 <input type="reset" value="重写"/>
                 <label for="issave">保存为常用数据库</label>
-                <input id="issave" type="checkbox" name="issave"/>
+                <input id="issave" type="checkbox" name="issave" value="1"/>
             </td>
         </tr>
         <c:if test="${not empty msg}">

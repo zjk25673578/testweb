@@ -19,8 +19,12 @@ public class MainServlet extends HttpServlet {
         MvcUtil<DBConnection> mvc = new MvcUtil<>();
         DBConnection docDb = new DBConnection(); // 获取需要生成文档的数据库
         Connection conn;
+        String issave = request.getParameter("issave");
         try {
             mvc.getEntity(request, docDb);
+            if (issave != null) {
+
+            }
             request.setAttribute("dbConnection", docDb);
             conn = docDb.getConnection();
             if (conn != null) {
