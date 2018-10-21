@@ -8,7 +8,7 @@ public class Columns {
     private String colname;
     private String coltype;
     private String clength;
-    private Integer related;
+    private String related;
     private String ccomment;
     private String note;
 
@@ -44,11 +44,11 @@ public class Columns {
         this.clength = clength;
     }
 
-    public Integer getRelated() {
+    public String getRelated() {
         return related;
     }
 
-    public void setRelated(Integer related) {
+    public void setRelated(String related) {
         this.related = related;
     }
 
@@ -66,20 +66,6 @@ public class Columns {
 
     public void setNote(String note) {
         this.note = note;
-    }
-
-    @Override
-    public String toString() {
-        return "Columns{" +
-                "ids=" + ids +
-                ", tname=" + tname +
-                ", colname='" + colname + '\'' +
-                ", coltype='" + coltype + '\'' +
-                ", clength='" + clength + '\'' +
-                ", related=" + related +
-                ", ccomment='" + ccomment + '\'' +
-                ", note='" + note + '\'' +
-                '}';
     }
 
     public String getTname() {

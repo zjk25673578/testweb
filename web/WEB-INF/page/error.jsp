@@ -7,6 +7,7 @@
 </head>
 <body>
 <h1>${errormsg}</h1>
-<a href="TableList">返回</a>
+<a href="TableList">返回列表页</a>
+<a href="Login">返回登录页</a>
 </body>
 </html>

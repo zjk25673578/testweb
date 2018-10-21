@@ -1,6 +1,6 @@
-package com.haner.servlet;
+package com.haner.servlet.tables;
 
-import com.haner.service.ColumnsService;
+import com.haner.service.tables.TablesService;
 import com.haner.util.JsonUtil;
 import com.haner.util.MvcUtil;
 
@@ -12,17 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 
-@WebServlet("/DeleteColumn")
-public class DeleteColumnServlet extends HttpServlet {
+@WebServlet("/DeleteTable")
+public class DeleteTableServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String ids = request.getParameter("ids");
-        String tname = request.getParameter("tname");
         MvcUtil mvc = new MvcUtil(request, response);
         Connection connection = mvc.getLocalConnection();
-        ColumnsService columnsService = new ColumnsService(connection);
-        int result = columnsService.deleteColumn(ids);
+        TablesService tablesService = new TablesService(connection);
+        int result = tablesService.deleteTable(ids);
         if (result > 0) {
-            mvc.redirect("ColumnList?tname=" + tname);
+            mvc.redirect("TableList");
         } else {
             try {
                 mvc.forward("page/error", JsonUtil.makeJson("errormsg", "删除失败"));

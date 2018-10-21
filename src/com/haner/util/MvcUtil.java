@@ -4,14 +4,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 此类用于以Model的形式直接接收前台传递的参数<br>
@@ -21,14 +24,14 @@ import java.util.*;
  *
  * @param <T> 用于返回的实体类的实际类型
  * @author zhaojk
- * @version 2.0
+ * @version 3.0
  */
 public class MvcUtil<T> {
 
     /**
      * 如果实体类中有Date类型的参数用于格式化日期
      */
-    private String dateFormat;
+    private String dateFormat = "yyyy-MM-dd";
 
     private HttpServletRequest request;
     private HttpServletResponse response;
@@ -37,6 +40,8 @@ public class MvcUtil<T> {
      * 构造方法用于构建此类的对象<br>
      * 调用此实体类的时候日期类型格式默认为 yyyy-MM-dd<br>
      * 实体类中所有的日期类型都会按照此格式解析<br>
+     *
+     * @deprecated
      */
     public MvcUtil() {
         this.dateFormat = "yyyy-MM-dd";
@@ -51,12 +56,17 @@ public class MvcUtil<T> {
     public MvcUtil(HttpServletRequest request, HttpServletResponse response) {
         this.request = request;
         this.response = response;
+        try {
+            request.setCharacterEncoding("utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
-     * @param dateFormat<br> 可传入一个日期格式化的类型<br>
-     *                       如果和前台传入的参数格式不一致则会报错<br>
-     *                       实体类中所有的日期类型都会按照此格式解析<br>
+     * @param dateFormat 可传入一个日期格式化的类型<br>
+     *                   如果和前台传入的参数格式不一致则会报错<br>
+     *                   实体类中所有的日期类型都会按照此格式解析<br>
      * @deprecated
      */
     public MvcUtil(String dateFormat) {
@@ -76,6 +86,7 @@ public class MvcUtil<T> {
 
     /**
      * 带Model的转发
+     *
      * @param page
      * @param map
      * @throws ServletException
@@ -108,8 +119,7 @@ public class MvcUtil<T> {
      * 将需要封装的实体类对象与request对象传入<br>
      * 将数据绑定在传入的实体类对象中
      *
-     * @param request web容器中的HttpServletRequest对象
-     * @param o       需要绑定数据库的实体类对象
+     * @param o 需要绑定数据库的实体类对象
      * @return 返回传入的实体类
      * @throws ClassNotFoundException
      * @throws InvocationTargetException
@@ -117,28 +127,24 @@ public class MvcUtil<T> {
      * @throws IllegalAccessException
      * @throws ParseException
      */
-    public T getEntity(HttpServletRequest request, T o) throws ClassNotFoundException, IllegalAccessException,
-            IllegalArgumentException, InvocationTargetException, ParseException {
+    public T getEntity(T o) throws Exception {
         // 通过传入的类的全限定名来反射出一个实体类对象
-        Class<?> clazz = Class.forName(o.getClass().getName());
+        Class<?> clazz = o.getClass();
 
         // 获取类中所有的字段
         Field[] fields = clazz.getDeclaredFields();
-
-        // 将前台所有的input控件中的name值获取出来
-        Enumeration<String> enums = request.getParameterNames();
-
-        // 将所有的值放到一个List里面
-        List<String> enumsValueList = new ArrayList<String>();
-        while (enums.hasMoreElements()) {
-            enumsValueList.add(enums.nextElement());
-        }
 
         // 循环遍历字段
         for (Field field : fields) {
             // 获取实体类中字段名
             String fieldName = field.getName();
 
+            Class<?> cla = field.getType();
+            // 获取前台传入的值
+            String requestValue = request.getParameter(fieldName);
+            if (requestValue == null) {
+                continue;
+            }
             // 根据字段定义setter方法名
             String methodName = "set" + String.valueOf(fieldName.charAt(0)).toUpperCase() + fieldName.substring(1);
 
@@ -151,35 +157,29 @@ public class MvcUtil<T> {
                 continue;
             }
 
-            // 获取前台传入的值
-            String requestValue = request.getParameter(fieldName);
-
             // 通过参数类型判断自动填充到实体类中
-            if (field.getType().getName().contains("String")) {
+            if (cla == String.class) {
                 m.invoke(o, requestValue);
             }
-            if (Number.class.isAssignableFrom(field.getType())) {
-                if (field.getType().getName().contains("BigDecimal")) {
-                    m.invoke(o, new BigDecimal(requestValue));
-                } else if (field.getType().getName().contains("Float")) {
-                    m.invoke(o, Float.parseFloat(requestValue));
-                } else if (field.getType().getName().contains("Double")) {
-                    m.invoke(o, Double.parseDouble(requestValue));
-                } else if (field.getType().getName().contains("Byte")) {
-                    m.invoke(o, Byte.parseByte(requestValue));
-                } else if (field.getType().getName().contains("Short")) {
-                    m.invoke(o, Short.parseShort(requestValue));
-                } else if (field.getType().getName().contains("Integer")) {
-                    m.invoke(o, Integer.parseInt(requestValue));
-                } else {
-                    m.invoke(o, Long.parseLong(requestValue));
-                }
-                if (field.getType().getName().contains("Integer")) {
-                    Integer i = Integer.parseInt(requestValue);
-                    m.invoke(o, i);
-                }
+            if (cla == Float.class) {
+                m.invoke(o, Float.parseFloat(requestValue));
             }
-            if (field.getType().getName().contains("java.util.Date")) {
+            if (cla == Double.class) {
+                m.invoke(o, Double.parseDouble(requestValue));
+            }
+            if (cla == Byte.class) {
+                m.invoke(o, Byte.parseByte(requestValue));
+            }
+            if (cla == Short.class) {
+                m.invoke(o, Short.parseShort(requestValue));
+            }
+            if (cla == Integer.class) {
+                m.invoke(o, Integer.parseInt(requestValue));
+            }
+            if (cla == Long.class) {
+                m.invoke(o, Long.parseLong(requestValue));
+            }
+            if (cla == Date.class) {
                 SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
                 Date date = sdf.parse(requestValue);
                 m.invoke(o, date);
@@ -206,5 +206,21 @@ public class MvcUtil<T> {
     public DBConnection getDocConnection() {
         DBConnection docConn = (DBConnection) request.getServletContext().getAttribute("docConn");
         return docConn;
+    }
+
+    public HttpServletRequest getRequest() {
+        return request;
+    }
+
+    public void setRequest(HttpServletRequest request) {
+        this.request = request;
+    }
+
+    public HttpServletResponse getResponse() {
+        return response;
+    }
+
+    public void setResponse(HttpServletResponse response) {
+        this.response = response;
     }
 }

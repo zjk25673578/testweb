@@ -1,6 +1,7 @@
-package com.haner.servlet;
+package com.haner.servlet.tables;
 
-import com.haner.service.TablesService;
+import com.haner.model.Tables;
+import com.haner.service.tables.TablesService;
 import com.haner.util.MvcUtil;
 
 import javax.servlet.ServletException;
@@ -9,18 +10,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
 
-@WebServlet("/DelTable")
-public class DelTableServlet extends HttpServlet {
+@WebServlet("/UpdateTable")
+public class UpdateTableServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         MvcUtil mvc = new MvcUtil(request, response);
-        Connection connection = mvc.getLocalConnection();
-        TablesService tablesService = new TablesService(connection);
-
-        tablesService.delTables();
-
-        mvc.redirect("TableList");
+        String ids = request.getParameter("ids");
+        TablesService tablesService = new TablesService(mvc.getLocalConnection());
+        Tables tables = null;
+        try {
+            tables = tablesService.selectTableById(ids);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        request.setAttribute("tab", tables);
+        mvc.forward("page/table");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

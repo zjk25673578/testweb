@@ -10,7 +10,7 @@ public class Tables {
     private Date ctime;
     private String profunc;
     private String tcomment;
-    private Integer related;
+    private String related;
     private String note;
 
     public Integer getIds() {
@@ -53,11 +53,11 @@ public class Tables {
         this.tcomment = tcomment;
     }
 
-    public Integer getRelated() {
+    public String getRelated() {
         return related;
     }
 
-    public void setRelated(Integer related) {
+    public void setRelated(String related) {
         this.related = related;
     }
 

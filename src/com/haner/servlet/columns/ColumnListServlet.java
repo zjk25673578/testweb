@@ -1,8 +1,8 @@
-package com.haner.servlet;
+package com.haner.servlet.columns;
 
 import com.haner.dao.SourcedocDao;
 import com.haner.model.Columns;
-import com.haner.service.ColumnsService;
+import com.haner.service.columns.ColumnsService;
 import com.haner.util.DBConnection;
 import com.haner.util.MvcUtil;
 

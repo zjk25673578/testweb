@@ -1,16 +1,24 @@
 package com.haner.dao;
 
+import com.haner.model.Columns;
+import com.haner.model.Tables;
+import com.haner.util.DBConnection;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.haner.model.Columns;
-import com.haner.model.Tables;
-import com.haner.util.DBConnection;
-
 public class SourcedocDao {
+
+    public DBConnection getDbConnection() {
+        return dbConnection;
+    }
+
+    public void setDbConnection(DBConnection dbConnection) {
+        this.dbConnection = dbConnection;
+    }
 
     protected DBConnection dbConnection;
 

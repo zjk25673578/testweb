@@ -1,4 +1,4 @@
-package com.haner.dao;
+package com.haner.model;
 
 public class DBCommons {
     private Integer ids;

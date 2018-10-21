@@ -1,18 +1,17 @@
-package com.haner.servlet;
+package com.haner.servlet.tables;
 
-import java.io.IOException;
-import java.sql.Connection;
+import com.haner.dao.SourcedocDao;
+import com.haner.service.tables.TablesService;
+import com.haner.util.DBConnection;
+import com.haner.util.MvcUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.haner.dao.SourcedocDao;
-import com.haner.service.TablesService;
-import com.haner.util.DBConnection;
-import com.haner.util.MvcUtil;
+import java.io.IOException;
+import java.sql.Connection;
 
 @WebServlet("/RefreshTable")
 public class RefreshTableServlet extends HttpServlet {

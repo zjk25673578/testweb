@@ -1,7 +1,7 @@
-package com.haner.servlet;
+package com.haner.servlet.columns;
 
 import com.haner.dao.SourcedocDao;
-import com.haner.service.ColumnsService;
+import com.haner.service.columns.ColumnsService;
 import com.haner.util.DBConnection;
 import com.haner.util.MvcUtil;
 
@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 
-@WebServlet("/RefreshTableCol")
-public class RefreshTableColServlet extends HttpServlet {
+@WebServlet("/RefreshCol")
+public class RefreshColServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         MvcUtil mvc = new MvcUtil(request, response);
         DBConnection dbConnection = mvc.getDocConnection();

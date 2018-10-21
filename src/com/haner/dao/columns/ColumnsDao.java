@@ -1,9 +1,9 @@
-package com.haner.dao;
-
-import java.sql.Connection;
+package com.haner.dao.columns;
 
 import com.haner.model.Columns;
 import com.haner.util.BaseDao;
+
+import java.sql.Connection;
 
 public class ColumnsDao extends BaseDao<Columns> {
 

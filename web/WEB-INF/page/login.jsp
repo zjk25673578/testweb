@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>MYSQL数据库登录</title>
-    <script type="text/javascript" src="${ctx}/js/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="${ctx}/css/global.css">
 </head>
 <body>
 <h1>输入相关信息</h1>
@@ -11,7 +11,7 @@
     <table>
         <tr>
             <td>用户名:</td>
-            <td><input type="text" name="username" value="${dbConnection.username}" /></td>
+            <td><input type="text" name="username" value="${dbConnection.username}"/></td>
         </tr>
         <tr>
             <td>密码:</td>
@@ -23,17 +23,19 @@
         </tr>
         <tr>
             <td>数据库类型:</td>
-            <td><input type="text" name="dbtype" value="${empty dbConnection.dbtype ? 'mysql' : dbConnection.dbtype}"></td>
+            <td><input type="text" name="dbtype" value="${empty dbConnection.dbtype ? 'mysql' : dbConnection.dbtype}">
+            </td>
         </tr>
         <tr>
             <td>数据库名(实例名):</td>
             <td><input type="text" name="docDbname" value="${dbConnection.docDbname}"></td>
         </tr>
         <tr>
-            <td colspan="2">
+            <td>
                 <input type="submit" value="进入"/>
-                <input type="reset" value="重写"/>
-                <label for="issave">保存为常用数据库</label>
+            </td>
+            <td>
+                <label style="cursor: pointer;" for="issave">保存为常用数据库</label>
                 <input id="issave" type="checkbox" name="issave" value="1"/>
             </td>
         </tr>
@@ -45,6 +47,11 @@
     </table>
 </form>
 <h4>常用数据库</h4>
-
+<c:forEach items="${list}" var="dbDoc">
+    <p>
+        <a href="Login?username=${dbDoc.username}&password=${dbDoc.password}&address=${dbDoc.address}&dbtype=${dbDoc.dbtype}&docDbname=${dbDoc.dbname}">${dbDoc.dbname}</a>
+        <a href="DeleteCommons?ids=${dbDoc.ids}">删除</a>
+    </p>
+</c:forEach>
 </body>
 </html>

@@ -1,3 +1,7 @@
+* {
+    font-family: "Microsoft YaHei UI";
+}
+
 table {
     background-color: #d4e3e5;
 }
@@ -8,8 +12,19 @@ table tr td {
     padding: 5px;
 }
 
+.note {
+    resize: none;
+    font-size: 18px;
+    width: 300px;
+    height: 100px;
+}
+
 .fixed-color {
     background: aqua;
+}
+
+.wrap {
+    word-wrap: break-word;
 }
 
 a {

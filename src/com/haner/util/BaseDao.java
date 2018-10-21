@@ -332,32 +332,6 @@ public abstract class BaseDao<E> {
             if (field.getType() == Date.class) {
                 method.invoke(orgObj, obj);
             }
-
-            /*
-             * // 判断当取出的数据类型为各种类型时的转换 if
-             * (field.getType().getName().equals("java.lang.String")) {
-             * method.invoke(orgObj, String.valueOf(obj)); } else if
-             * (Number.class.isAssignableFrom(field.getType())) { if
-             * (field.getType().getName().contains("BigDecimal")) { method.invoke(orgObj,
-             * field.getType().cast(obj)); } else if
-             * (field.getType().getName().contains("Float")) { method.invoke(orgObj,
-             * ((Number) obj).floatValue()); } else if
-             * (field.getType().getName().contains("Double")) { method.invoke(orgObj,
-             * ((Number) obj).doubleValue()); } else if
-             * (field.getType().getName().contains("Byte")) { method.invoke(orgObj,
-             * ((Number) obj).byteValue()); } else if
-             * (field.getType().getName().contains("Short")) { method.invoke(orgObj,
-             * ((Number) obj).shortValue()); } else if
-             * (field.getType().getName().contains("Integer")) { method.invoke(orgObj,
-             * ((Number) obj).intValue()); } else { method.invoke(orgObj, ((Number)
-             * obj).longValue()); } } else if (field.getType().getName().contains("Date")) {
-             * method.invoke(orgObj, rs.getObject(fname)); } else {
-             *
-             * // 转不了的强制转换, 这里主要为了处理null 如果能确定除了数字, 日期, 字符串没有其它类型了, 也可以直接写成 //
-             * method.invoke(orgObj, rs.getObject(fname));
-             *
-             * method.invoke(orgObj, fname.getClass().cast(rs.getObject(fname))); }
-             */
         }
     }
 
@@ -437,11 +411,5 @@ public abstract class BaseDao<E> {
                 ps.setObject(i, objs[i - 1]);
             }
         }
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-        DBHelper.destroy(conn, null, null);
     }
 }

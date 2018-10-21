@@ -1,7 +1,8 @@
 package com.haner.servlet;
 
+import com.haner.service.DBCommonsSrvice;
 import com.haner.util.DBConnection;
-import com.haner.util.DBConstant;
+import com.haner.util.DBHelper;
 import com.haner.util.MvcUtil;
 
 import javax.servlet.ServletException;
@@ -12,30 +13,30 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 
+import static com.haner.util.DBConstant.*;
+
 @WebServlet("/Main")
 public class MainServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-        MvcUtil<DBConnection> mvc = new MvcUtil<>();
+        MvcUtil<DBConnection> mvc = new MvcUtil<>(request, response);
         DBConnection docDb = new DBConnection(); // 获取需要生成文档的数据库
         Connection conn;
         String issave = request.getParameter("issave");
         try {
-            mvc.getEntity(request, docDb);
-            if (issave != null) {
-
-            }
+            mvc.getEntity(docDb);
             request.setAttribute("dbConnection", docDb);
             conn = docDb.getConnection();
             if (conn != null) {
                 request.getServletContext().setAttribute("docConn", docDb);
                 // 连接本地数据库
-                DBConnection db = new DBConnection();
-                db.setUsername("root");
-                // db.setPassword("123456");
-                db.setDbtype(DBConstant.MYSQL);
-                db.setAddress("127.0.0.1");
-                Connection localdb = db.getConnection();
+                Connection localdb = DBHelper.getConnection(DRIVERCLASSNAME_MYSQL, URL_MYSQL,
+                        USERNAME, PASSWORD);
+                if (issave != null) {
+                    DBCommonsSrvice dbCommons = new DBCommonsSrvice(localdb);
+                    dbCommons.saveCommonsDB(docDb);
+                }
                 request.getServletContext().setAttribute("localdb", localdb);
                 response.sendRedirect("TableList");
             } else {

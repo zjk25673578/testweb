@@ -1,7 +1,7 @@
-package com.haner.service;
+package com.haner.service.tables;
 
 import com.haner.dao.SourcedocDao;
-import com.haner.dao.TablesDao;
+import com.haner.dao.tables.TablesDao;
 import com.haner.model.Tables;
 
 import java.sql.Connection;
@@ -20,13 +20,10 @@ public class TablesService {
     public List<Tables> tables(String keywords) throws Exception {
         String sqlPlus = "";
         if (keywords != null) {
-            sqlPlus = "where tname like ?";
+            sqlPlus = "and tname like '%" + keywords + "%'";
         }
-        String sql = "select * from db_tables " + sqlPlus + " order by tname";
-        if (keywords != null) {
-            return tablesDao.query(sql, "%" + keywords + "%");
-        }
-        return tablesDao.query(sql);
+        String sql = "select * from db_tables where sche=? " + sqlPlus + " order by tname";
+        return tablesDao.query(sql, sourcedocDao.getDbConnection().getDocDbname());
     }
 
     public int refreshTables() throws Exception {
@@ -40,20 +37,13 @@ public class TablesService {
             System.out.println("正在操作" + tables.getTname() + "表");
             Object o = tablesDao.getOne(view_sql, tables.getTname(), tables.getSche()); // 获取的是主键
             if (o == null) {
-                r += tablesDao.update(insert_sql, tables.getSche(), tables.getTname(), tables.getCtime(), tables.getTcomment());
+                r += tablesDao.update(insert_sql, tables.getSche(), tables.getTname(), tables.getCtime(),
+                        tables.getTcomment());
             } else {
                 r += tablesDao.update(update_sql, tables.getCtime(), tables.getTcomment(), o);
             }
         }
         return r;
-    }
-
-    public SourcedocDao getSourcedocDao() {
-        return sourcedocDao;
-    }
-
-    public void setSourcedocDao(SourcedocDao sourcedocDao) {
-        this.sourcedocDao = sourcedocDao;
     }
 
     public int deleteTable(String ids) {
@@ -74,5 +64,22 @@ public class TablesService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public Tables selectTableById(String ids) throws Exception {
+        return tablesDao.queryOne("select * from db_tables where ids=?", ids);
+    }
+
+    public int updateTableInfo(Tables tables) throws Exception {
+        String sql = "update db_tables set profunc=?,related=?,note=? where ids=?";
+        return tablesDao.update(sql, tables.getProfunc(), tables.getRelated(), tables.getNote(), tables.getIds());
+    }
+
+    public SourcedocDao getSourcedocDao() {
+        return sourcedocDao;
+    }
+
+    public void setSourcedocDao(SourcedocDao sourcedocDao) {
+        this.sourcedocDao = sourcedocDao;
     }
 }

@@ -1,6 +1,6 @@
-package com.haner.service;
+package com.haner.service.columns;
 
-import com.haner.dao.ColumnsDao;
+import com.haner.dao.columns.ColumnsDao;
 import com.haner.dao.SourcedocDao;
 import com.haner.model.Columns;
 
@@ -60,14 +60,6 @@ public class ColumnsService {
         }
     }
 
-    public SourcedocDao getSourcedocDao() {
-        return sourcedocDao;
-    }
-
-    public void setSourcedocDao(SourcedocDao sourcedocDao) {
-        this.sourcedocDao = sourcedocDao;
-    }
-
     public int deleteColumn(String ids) {
         String sql = "delete from db_columns where ids=?";
         int result = 0;
@@ -86,5 +78,24 @@ public class ColumnsService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public Columns selectTableById(String ids) throws Exception {
+        String sql = "select * from db_columns where ids=?";
+        return columnsDao.queryOne(sql, ids);
+    }
+
+    public int updateColInfo(Columns columns) throws Exception {
+        String sql = "update db_columns set related=?, note=? where ids=?";
+        Integer ids = columns.getIds();
+        return columnsDao.update(sql, columns.getRelated(), columns.getNote(), ids);
+    }
+
+    public SourcedocDao getSourcedocDao() {
+        return sourcedocDao;
+    }
+
+    public void setSourcedocDao(SourcedocDao sourcedocDao) {
+        this.sourcedocDao = sourcedocDao;
     }
 }

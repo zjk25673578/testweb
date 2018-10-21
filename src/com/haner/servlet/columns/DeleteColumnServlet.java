@@ -1,6 +1,7 @@
-package com.haner.servlet;
+package com.haner.servlet.columns;
 
-import com.haner.service.ColumnsService;
+import com.haner.service.columns.ColumnsService;
+import com.haner.util.JsonUtil;
 import com.haner.util.MvcUtil;
 
 import javax.servlet.ServletException;
@@ -11,16 +12,24 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 
-@WebServlet("/DelColumn")
-public class DelColumnServlet extends HttpServlet {
+@WebServlet("/DeleteColumn")
+public class DeleteColumnServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String ids = request.getParameter("ids");
+        String tname = request.getParameter("tname");
         MvcUtil mvc = new MvcUtil(request, response);
         Connection connection = mvc.getLocalConnection();
         ColumnsService columnsService = new ColumnsService(connection);
-
-        columnsService.delCols();
-
-        mvc.redirect("TableList");
+        int result = columnsService.deleteColumn(ids);
+        if (result > 0) {
+            mvc.redirect("ColumnList?tname=" + tname);
+        } else {
+            try {
+                mvc.forward("page/error", JsonUtil.makeJson("errormsg", "删除失败"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
