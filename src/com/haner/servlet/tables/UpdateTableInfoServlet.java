@@ -12,21 +12,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 
+/**
+ * 更新表属性的关联项目模块, 备注及关联的表和列
+ */
 @WebServlet("/UpdateTableInfo")
 public class UpdateTableInfoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         MvcUtil<Tables> mvc = new MvcUtil<>(request, response);
         Tables tables = new Tables();
-        try {
-            mvc.getEntity(tables);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        Connection localdb = mvc.getLocalConnection();
+        Connection localdb = mvc.getLocalConnection(); // 获取数据存储对象
         TablesService tablesService = new TablesService(localdb);
         int r = 0;
         try {
+            mvc.getEntity(tables);
             r = tablesService.updateTableInfo(tables);
         } catch (Exception e) {
             e.printStackTrace();

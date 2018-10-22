@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * 业务逻辑
+ */
 public class ColumnsService {
 
     private ColumnsDao columnsDao;
@@ -19,6 +22,14 @@ public class ColumnsService {
         columnsDao = new ColumnsDao(connection);
     }
 
+    /**
+     * 查询指定表名, 数据库中的列属性信息
+     * 当表名, 数据库匹配不到任何信息则做添加操作
+     * @param tname 表名
+     * @param sche 数据库名
+     * @return
+     * @throws Exception
+     */
     public List<Columns> columns(String tname, String sche) throws Exception {
         String sql = "select * from db_columns where sche=? and tname=?";
         List<Columns> list = columnsDao.query(sql, sche, tname);
@@ -40,6 +51,14 @@ public class ColumnsService {
         return list;
     }
 
+    /**
+     * 刷新指定表名, 数据库的列属性
+     * 当表名, 列名, 数据库可以匹配到信息则做更新操作
+     * 更新列类型, 最大长度, 注释这3个字段
+     * @param tname
+     * @param sche
+     * @throws Exception
+     */
     public void refreshColumns(String tname, String sche) throws Exception {
         String sqlInsert = "insert into db_columns(sche, tname, colname, coltype, clength, ccomment) " +
                 "values (?, ?, ?, ?, ?, ?)";
@@ -60,6 +79,11 @@ public class ColumnsService {
         }
     }
 
+    /**
+     * 删除指定列信息
+     * @param ids
+     * @return
+     */
     public int deleteColumn(String ids) {
         String sql = "delete from db_columns where ids=?";
         int result = 0;
@@ -71,6 +95,9 @@ public class ColumnsService {
         return result;
     }
 
+    /**
+     * 清空列属性信息表
+     */
     public void delCols() {
         String sql = "delete from db_columns";
         try {
@@ -80,11 +107,23 @@ public class ColumnsService {
         }
     }
 
-    public Columns selectTableById(String ids) throws Exception {
+    /**
+     * 查询指定列信息, 用于更新备注及关联
+     * @param ids 主键
+     * @return
+     * @throws Exception
+     */
+    public Columns selectColumnsById(String ids) throws Exception {
         String sql = "select * from db_columns where ids=?";
         return columnsDao.queryOne(sql, ids);
     }
 
+    /**
+     * 更新指定列属性
+     * @param columns
+     * @return
+     * @throws Exception
+     */
     public int updateColInfo(Columns columns) throws Exception {
         String sql = "update db_columns set related=?, note=? where ids=?";
         Integer ids = columns.getIds();

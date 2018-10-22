@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * 跳转至更新列页面
+ */
 @WebServlet("/UpdateCol")
 public class UpdateColServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -19,7 +22,7 @@ public class UpdateColServlet extends HttpServlet {
         ColumnsService columnsService = new ColumnsService(mvc.getLocalConnection());
         Columns columns = null;
         try {
-            columns = columnsService.selectTableById(ids);
+            columns = columnsService.selectColumnsById(ids);
         } catch (Exception e) {
             e.printStackTrace();
         }

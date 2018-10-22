@@ -17,8 +17,12 @@ public class DBConstant {
      * 数据库类型
      */
     public static final String MYSQL = "mysql";
-    public static final String MYSQL_PORT = ":3306" + S;
     public static final String ORACLE = "oracle";
+
+    /**
+     * 默认端口号
+     */
+    public static final String MYSQL_PORT = ":3306" + S;
 
     /**
      * 访问数据库的用户名
@@ -28,7 +32,7 @@ public class DBConstant {
     /**
      * 访问数据库的用户密码
      */
-    public static final String PASSWORD = "123456";
+    public static final String PASSWORD = "";
 
     /**
      * 数据库驱动类文件(Oracle)

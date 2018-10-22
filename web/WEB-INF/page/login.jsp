@@ -49,7 +49,9 @@
 <h4>常用数据库</h4>
 <c:forEach items="${list}" var="dbDoc">
     <p>
-        <a href="Login?username=${dbDoc.username}&password=${dbDoc.password}&address=${dbDoc.address}&dbtype=${dbDoc.dbtype}&docDbname=${dbDoc.dbname}">${dbDoc.dbname}</a>
+        <a href="Login?username=${dbDoc.username}&password=${dbDoc.password}&address=${dbDoc.address}&dbtype=${dbDoc.dbtype}&docDbname=${dbDoc.dbname}">
+                ${dbDoc.username} - ${dbDoc.dbname}
+        </a>&nbsp;
         <a href="DeleteCommons?ids=${dbDoc.ids}">删除</a>
     </p>
 </c:forEach>

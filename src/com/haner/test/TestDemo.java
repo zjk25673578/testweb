@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.haner.dao.SourcedocDao;
 import com.haner.model.Columns;
-import com.haner.util.DBConnection;
+import com.haner.model.DBConnection;
 import com.haner.util.DBConstant;
 
 public class TestDemo {

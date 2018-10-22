@@ -16,6 +16,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import com.haner.model.DBConnection;
+
 /**
  * 此类用于以Model的形式直接接收前台传递的参数<br>
  * <b>使用此类需要注意:</b><br>
@@ -33,19 +35,15 @@ public class MvcUtil<T> {
      */
     private String dateFormat = "yyyy-MM-dd";
 
+    /**
+     * 页面请求对象
+     */
     private HttpServletRequest request;
-    private HttpServletResponse response;
 
     /**
-     * 构造方法用于构建此类的对象<br>
-     * 调用此实体类的时候日期类型格式默认为 yyyy-MM-dd<br>
-     * 实体类中所有的日期类型都会按照此格式解析<br>
-     *
-     * @deprecated
+     * 页面相应对象
      */
-    public MvcUtil() {
-        this.dateFormat = "yyyy-MM-dd";
-    }
+    private HttpServletResponse response;
 
     /**
      * 用于重定向和转发的
@@ -64,6 +62,7 @@ public class MvcUtil<T> {
     }
 
     /**
+     * 弃用原因: 尽量使用setter方法设置此属性
      * @param dateFormat 可传入一个日期格式化的类型<br>
      *                   如果和前台传入的参数格式不一致则会报错<br>
      *                   实体类中所有的日期类型都会按照此格式解析<br>
@@ -222,5 +221,13 @@ public class MvcUtil<T> {
 
     public void setResponse(HttpServletResponse response) {
         this.response = response;
+    }
+
+    public String getDateFormat() {
+        return dateFormat;
+    }
+
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
     }
 }

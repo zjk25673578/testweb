@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 
 /**
  * 用于构建JSON对象的工具类<br>
- * 必需要使用fastjson.jar第三方类库
+ * 依赖于fastjson.jar或其他JSON相关第三方类库
  *
  * @author zhaojk
  * @version 2.0
@@ -19,7 +19,7 @@ public class JsonUtil {
      * @throws Exception 当参数个数或者key类型错误时抛出的异常
      */
     public static JSONObject makeJson(Object... objs) throws Exception {
-        JSONObject jo = null;
+        JSONObject jo;
         if (objs.length % 2 == 0) {
             if (checkString(objs)) {
                 jo = new JSONObject();

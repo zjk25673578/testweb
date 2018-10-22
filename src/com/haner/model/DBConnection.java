@@ -1,9 +1,14 @@
-package com.haner.util;
+package com.haner.model;
 
 import java.sql.Connection;
 
+import com.haner.util.DBHelper;
+
 import static com.haner.util.DBConstant.*;
 
+/**
+ * 数据库连接对象(对应java.sql.Connection)
+ */
 public class DBConnection {
     private String username;
     private String password;

@@ -2,18 +2,28 @@ package com.haner.service;
 
 import com.haner.dao.DBCommonsDao;
 import com.haner.model.DBCommons;
-import com.haner.util.DBConnection;
+import com.haner.model.DBConnection;
 
 import java.sql.Connection;
 import java.util.List;
 
-public class DBCommonsSrvice {
+/**
+ * 业务逻辑
+ * 常用数据库信息
+ */
+public class DBCommonsService {
     private DBCommonsDao dbCommonsDao;
 
-    public DBCommonsSrvice(Connection conn) {
+    public DBCommonsService(Connection conn) {
         dbCommonsDao = new DBCommonsDao(conn);
     }
 
+    /**
+     * 保存一条常用数据库信息
+     * @param conn
+     * @return
+     * @throws Exception
+     */
     public int saveCommonsDB(DBConnection conn) throws Exception {
         String sql = "insert into db_commons(username, password, address, dbtype, dbname) values " +
                 "(?, ?, ?, ?, ?)";
@@ -29,11 +39,22 @@ public class DBCommonsSrvice {
         return 0;
     }
 
+    /**
+     * 获取常用数据库连接信息
+     * @return
+     * @throws Exception
+     */
     public List<DBCommons> selectCommonsDBs() throws Exception {
         String sql = "select * from db_commons";
         return dbCommonsDao.query(sql);
     }
 
+    /**
+     * 删除指定信息
+     * @param ids
+     * @return
+     * @throws Exception
+     */
     public int deleteCommonsDBs(String ids) throws Exception {
         String sql = "delete from db_commons where ids=?";
         return dbCommonsDao.update(sql, ids);

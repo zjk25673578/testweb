@@ -1,5 +1,8 @@
 package com.haner.model;
 
+/**
+ * 列属性实体类
+ */
 public class Columns {
 
     private Integer ids;

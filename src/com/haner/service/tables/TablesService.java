@@ -7,6 +7,9 @@ import com.haner.model.Tables;
 import java.sql.Connection;
 import java.util.List;
 
+/**
+ * 业务逻辑
+ */
 public class TablesService {
 
     private TablesDao tablesDao;
@@ -17,6 +20,12 @@ public class TablesService {
         tablesDao = new TablesDao(connection);
     }
 
+    /**
+     * 获取表属性信息
+     * @param keywords 表名模糊查询条件
+     * @return
+     * @throws Exception
+     */
     public List<Tables> tables(String keywords) throws Exception {
         String sqlPlus = "";
         if (keywords != null) {
@@ -26,6 +35,14 @@ public class TablesService {
         return tablesDao.query(sql, sourcedocDao.getDbConnection().getDocDbname());
     }
 
+    /**
+     * 刷新整个表的信息
+     * 通过表名做匹配
+     *      可以匹配到做修改操作
+     *      匹配不到做更新操作
+     * @return
+     * @throws Exception
+     */
     public int refreshTables() throws Exception {
         List<Tables> table_data = sourcedocDao.tableDatas();
         String insert_sql = "insert into db_tables (sche, tname, ctime, tcomment) values (?, ?, ?, ?)";
@@ -46,6 +63,11 @@ public class TablesService {
         return r;
     }
 
+    /**
+     * 删除指定表信息
+     * @param ids
+     * @return
+     */
     public int deleteTable(String ids) {
         String sql = "delete from db_tables where ids=?";
         int result = 0;
@@ -57,6 +79,9 @@ public class TablesService {
         return result;
     }
 
+    /**
+     * 清空表属性信息表
+     */
     public void delTables() {
         String sql = "delete from db_tables";
         try {
@@ -66,10 +91,22 @@ public class TablesService {
         }
     }
 
+    /**
+     * 查询指定主键表属性信息
+     * @param ids 主键
+     * @return
+     * @throws Exception
+     */
     public Tables selectTableById(String ids) throws Exception {
         return tablesDao.queryOne("select * from db_tables where ids=?", ids);
     }
 
+    /**
+     * 更新指定表
+     * @param tables
+     * @return
+     * @throws Exception
+     */
     public int updateTableInfo(Tables tables) throws Exception {
         String sql = "update db_tables set profunc=?,related=?,note=? where ids=?";
         return tablesDao.update(sql, tables.getProfunc(), tables.getRelated(), tables.getNote(), tables.getIds());

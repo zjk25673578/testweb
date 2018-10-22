@@ -12,13 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 
+/**
+ * 删除指定列信息
+ */
 @WebServlet("/DeleteColumn")
 public class DeleteColumnServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String ids = request.getParameter("ids");
         String tname = request.getParameter("tname");
         MvcUtil mvc = new MvcUtil(request, response);
-        Connection connection = mvc.getLocalConnection();
+        Connection connection = mvc.getLocalConnection(); // 获取数据存储对象
         ColumnsService columnsService = new ColumnsService(connection);
         int result = columnsService.deleteColumn(ids);
         if (result > 0) {

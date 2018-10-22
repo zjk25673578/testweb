@@ -12,12 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 
+/**
+ * 删除指定表信息
+ */
 @WebServlet("/DeleteTable")
 public class DeleteTableServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String ids = request.getParameter("ids");
         MvcUtil mvc = new MvcUtil(request, response);
-        Connection connection = mvc.getLocalConnection();
+        Connection connection = mvc.getLocalConnection(); // 获取数据存储对象
         TablesService tablesService = new TablesService(connection);
         int result = tablesService.deleteTable(ids);
         if (result > 0) {

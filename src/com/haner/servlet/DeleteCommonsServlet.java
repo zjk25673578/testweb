@@ -1,6 +1,6 @@
 package com.haner.servlet;
 
-import com.haner.service.DBCommonsSrvice;
+import com.haner.service.DBCommonsService;
 import com.haner.util.DBHelper;
 
 import javax.servlet.ServletException;
@@ -13,6 +13,9 @@ import java.sql.Connection;
 
 import static com.haner.util.DBConstant.*;
 
+/**
+ * 删除指定常用数据库
+ */
 @WebServlet("/DeleteCommons")
 public class DeleteCommonsServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -20,7 +23,7 @@ public class DeleteCommonsServlet extends HttpServlet {
         int i = 0;
         try {
             Connection conn = DBHelper.getConnection(DRIVERCLASSNAME_MYSQL, URL_MYSQL, USERNAME, PASSWORD);
-            DBCommonsSrvice service = new DBCommonsSrvice(conn);
+            DBCommonsService service = new DBCommonsService(conn);
             i = service.deleteCommonsDBs(ids);
         } catch (Exception e) {
             e.printStackTrace();

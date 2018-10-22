@@ -123,7 +123,7 @@ public abstract class BaseDao<E> {
     }
 
     /**
-     * 返回分页信息的List, 仅限于Oracle数据库
+     * 返回分页信息的List, <b>仅限于Oracle数据库<b/>
      *
      * @param sql  需要执行的数据库sql语句
      * @param rows 每页显示条数
@@ -164,7 +164,6 @@ public abstract class BaseDao<E> {
     /**
      * 当进行<b>增删改</b>操作时应调用此方法<br>
      * 此方法执行完毕直接返回sql语句执行的结果<br>
-     * 并且释放Connection, Statement, ResultSet所占用的资源<br>
      *
      * @param sql  需要执行的数据库sql语句
      * @param objs 进行sql属性注入的参数
@@ -188,7 +187,7 @@ public abstract class BaseDao<E> {
     }
 
     /**
-     * 批量操作数据库的方法并且释放Connection, Statement, ResultSet所占用的资源<br>
+     * 批量操作数据库的方法<br>
      * 主要用于update或者insert
      *
      * @param sql      需要执行的数据库sql语句

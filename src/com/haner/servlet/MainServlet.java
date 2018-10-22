@@ -1,7 +1,7 @@
 package com.haner.servlet;
 
-import com.haner.service.DBCommonsSrvice;
-import com.haner.util.DBConnection;
+import com.haner.service.DBCommonsService;
+import com.haner.model.DBConnection;
 import com.haner.util.DBHelper;
 import com.haner.util.MvcUtil;
 
@@ -13,8 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 
-import static com.haner.util.DBConstant.*;
-
+/**
+ * 判断数据库是否连接成功
+ * 成功则重定向至表属性信息
+ * 失败则跳转至错误页面
+ * 同时连接存储数据库(存储数据库信息从com.haner.util.DBConstant中获取)
+ */
 @WebServlet("/Main")
 public class MainServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -23,7 +27,7 @@ public class MainServlet extends HttpServlet {
         MvcUtil<DBConnection> mvc = new MvcUtil<>(request, response);
         DBConnection docDb = new DBConnection(); // 获取需要生成文档的数据库
         Connection conn;
-        String issave = request.getParameter("issave");
+        String issave = request.getParameter("issave"); // 是否将当前连接保存为常用连接
         try {
             mvc.getEntity(docDb);
             request.setAttribute("dbConnection", docDb);
@@ -31,21 +35,20 @@ public class MainServlet extends HttpServlet {
             if (conn != null) {
                 request.getServletContext().setAttribute("docConn", docDb);
                 // 连接本地数据库
-                Connection localdb = DBHelper.getConnection(DRIVERCLASSNAME_MYSQL, URL_MYSQL,
-                        USERNAME, PASSWORD);
+                Connection localdb = DBHelper.getConnection();
                 if (issave != null) {
-                    DBCommonsSrvice dbCommons = new DBCommonsSrvice(localdb);
+                    DBCommonsService dbCommons = new DBCommonsService(localdb);
                     dbCommons.saveCommonsDB(docDb);
                 }
                 request.getServletContext().setAttribute("localdb", localdb);
-                response.sendRedirect("TableList");
+                mvc.redirect("TableList");
             } else {
                 request.setAttribute("msg", "目标数据库连接出了点问题");
-                request.getRequestDispatcher("/WEB-INF/page/main.jsp").forward(request, response);
+                mvc.forward("page/main");
             }
         } catch (Exception e) {
             request.setAttribute("msg", e.getMessage());
-            request.getRequestDispatcher("/WEB-INF/page/login.jsp").forward(request, response);
+            mvc.forward("page/login");
             e.printStackTrace();
         }
     }

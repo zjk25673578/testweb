@@ -11,11 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 
+/**
+ * 清空表信息数据
+ */
 @WebServlet("/DelTable")
 public class DelTableServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         MvcUtil mvc = new MvcUtil(request, response);
-        Connection connection = mvc.getLocalConnection();
+        Connection connection = mvc.getLocalConnection(); // 获取数据存储对象
         TablesService tablesService = new TablesService(connection);
 
         tablesService.delTables();

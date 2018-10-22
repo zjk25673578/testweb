@@ -1,9 +1,8 @@
 package com.haner.util;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
+
+import static com.haner.util.DBConstant.*;
 
 /**
  * 数据库连接类, 通过这个类可以获取到数据库的连接对象Connection
@@ -21,9 +20,25 @@ public class DBHelper {
      * @param password 指定的密码
      * @return 数据库连接对象
      */
-    public static Connection getConnection(String className, String url, String username, String password) throws Exception {
-        Class.forName(className);
-        return DriverManager.getConnection(url, username, password);
+    public static Connection getConnection(String className, String url, String username, String password) {
+        Connection conn;
+        try {
+            Class.forName(className);
+            conn = DriverManager.getConnection(url, username, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return conn;
+    }
+
+    /**
+     * 获取连接对象, 属性取自com.haner.util.DBConstant中
+     * @return
+     */
+    public static Connection getConnection() {
+        return getConnection(DRIVERCLASSNAME_MYSQL, URL_MYSQL,
+                USERNAME, PASSWORD);
     }
 
     /**

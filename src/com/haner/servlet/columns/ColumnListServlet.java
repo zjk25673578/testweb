@@ -3,7 +3,7 @@ package com.haner.servlet.columns;
 import com.haner.dao.SourcedocDao;
 import com.haner.model.Columns;
 import com.haner.service.columns.ColumnsService;
-import com.haner.util.DBConnection;
+import com.haner.model.DBConnection;
 import com.haner.util.MvcUtil;
 
 import javax.servlet.ServletException;
@@ -16,14 +16,17 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * 获取列信息
+ */
 @WebServlet("/ColumnList")
 public class ColumnListServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         MvcUtil mvc = new MvcUtil(request, response);
-        DBConnection dbConnection = mvc.getDocConnection();
-        Connection connection = mvc.getLocalConnection();
+        DBConnection dbConnection = mvc.getDocConnection(); // 获取数据库文档连接对象
+        Connection connection = mvc.getLocalConnection(); // 获取数据存储对象
         try {
-            if (connection == null || connection.isClosed()) {
+            if (connection == null || connection.isClosed()) { // 若连接失效或者关闭返回重新登录
                 mvc.redirect("Login");
             } else {
                 SourcedocDao sourcedocDao = new SourcedocDao(dbConnection);

@@ -14,14 +14,17 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.util.List;
 
+/**
+ * 获取文档数据库的表
+ */
 @WebServlet("/TableList")
 public class TableListServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         MvcUtil mvc = new MvcUtil(request, response);
         // 本地需要存储数据的数据源
-        Connection localdb = mvc.getLocalConnection();
-        String keywords = request.getParameter("keywords");
+        Connection localdb = mvc.getLocalConnection(); // 获取数据存储对象
+        String keywords = request.getParameter("keywords"); // 查询条件的关键字
         try {
             if (localdb != null && !localdb.isClosed()) {
                 TablesService tablesService = new TablesService(localdb);

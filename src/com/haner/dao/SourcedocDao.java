@@ -2,7 +2,7 @@ package com.haner.dao;
 
 import com.haner.model.Columns;
 import com.haner.model.Tables;
-import com.haner.util.DBConnection;
+import com.haner.model.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,20 +10,26 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 需要生成文档的数据库访问对象
+ */
 public class SourcedocDao {
 
-    public DBConnection getDbConnection() {
-        return dbConnection;
-    }
-
-    public void setDbConnection(DBConnection dbConnection) {
-        this.dbConnection = dbConnection;
-    }
-
+    /**
+     * 数据库连接对象
+     * 包含数据库信息的属性
+     */
     protected DBConnection dbConnection;
 
+    /**
+     * 数据库连接对象
+     */
     private Connection conn;
 
+    /**
+     * 构造方法
+     * @param dbConnection
+     */
     public SourcedocDao(DBConnection dbConnection) {
         this.dbConnection = dbConnection;
         try {
@@ -33,6 +39,11 @@ public class SourcedocDao {
         }
     }
 
+    /**
+     * 获取目标数据库中表的注释及其他属性
+     * @return
+     * @throws Exception
+     */
     public List<Tables> tableDatas() throws Exception {
         String sql = "SELECT TABLE_SCHEMA, TABLE_NAME, CREATE_TIME, TABLE_COMMENT FROM `TABLES` WHERE TABLE_SCHEMA=?";
         PreparedStatement ps = conn.prepareStatement(sql);
@@ -50,6 +61,13 @@ public class SourcedocDao {
         return list;
     }
 
+    /**
+     * 获取目标数据库中指定表的列属性
+     * @param sche mysql数据库名
+     * @param tablename 表名
+     * @return
+     * @throws Exception
+     */
     public List<Columns> columnDatas(String sche, String tablename) throws Exception {
         String sql = "SELECT TABLE_NAME, COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, COLUMN_COMMENT " +
                 "FROM `COLUMNS` WHERE TABLE_NAME=? AND TABLE_SCHEMA=?";
@@ -69,5 +87,13 @@ public class SourcedocDao {
             list.add(columns);
         }
         return list;
+    }
+
+    public DBConnection getDbConnection() {
+        return dbConnection;
+    }
+
+    public void setDbConnection(DBConnection dbConnection) {
+        this.dbConnection = dbConnection;
     }
 }

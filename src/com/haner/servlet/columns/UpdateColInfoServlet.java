@@ -12,19 +12,22 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 
+/**
+ * 更新列属性的关联和备注
+ */
 @WebServlet("/UpdateColInfo")
 public class UpdateColInfoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         MvcUtil<Columns> mvc = new MvcUtil<>(request, response);
         Columns columns = new Columns();
-        int r = 0;
-        Connection localdb = mvc.getLocalConnection();
+        int r;
+        Connection localdb = mvc.getLocalConnection(); // 获取数据存储对象
         ColumnsService columnsService = new ColumnsService(localdb);
         try {
             mvc.getEntity(columns);
             r = columnsService.updateColInfo(columns);
             if (r > 0) {
-                columns = columnsService.selectTableById(columns.getIds() + "");
+                columns = columnsService.selectColumnsById(columns.getIds() + "");
                 mvc.redirect("ColumnList?tname=" + columns.getTname());
             } else {
                 request.setAttribute("errormsg", "更新失败");

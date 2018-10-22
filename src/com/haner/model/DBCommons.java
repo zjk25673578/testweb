@@ -1,5 +1,8 @@
 package com.haner.model;
 
+/**
+ * 常用数据库属性实体类(对应表)
+ */
 public class DBCommons {
     private Integer ids;
     private String username;

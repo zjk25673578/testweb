@@ -2,6 +2,9 @@ package com.haner.model;
 
 import java.util.Date;
 
+/**
+ * 表属性实体类
+ */
 public class Tables {
 
     private Integer ids;
