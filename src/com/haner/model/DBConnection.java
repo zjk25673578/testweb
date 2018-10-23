@@ -20,6 +20,7 @@ public class DBConnection {
     private Connection connection;
 
     public DBConnection() {
+        this.password = "";
     }
 
     private boolean initCheck() {
@@ -125,5 +126,19 @@ public class DBConnection {
             connection.close();
         }
         return connection == null || connection.isClosed();
+    }
+
+    @Override
+    public String toString() {
+        return "DBConnection{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", port='" + port + '\'' +
+                ", driverClass='" + driverClass + '\'' +
+                ", address='" + address + '\'' +
+                ", dbtype='" + dbtype + '\'' +
+                ", docDbname='" + docDbname + '\'' +
+                ", connection=" + connection +
+                '}';
     }
 }

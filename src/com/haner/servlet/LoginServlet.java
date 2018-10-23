@@ -26,7 +26,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         MvcUtil<DBConnection> mvc = new MvcUtil<>(request, response);
-        DBConnection docDb = new DBConnection(); // 获取需要生成文档的数据库
+        DBConnection docDb = new DBConnection(); // 获取需要生成文档的数据库, 用于填充表单
         List<DBCommons> list = null;
         try {
             mvc.getEntity(docDb);

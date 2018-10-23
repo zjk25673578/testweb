@@ -32,22 +32,22 @@ public class MainServlet extends HttpServlet {
             mvc.getEntity(docDb);
             request.setAttribute("dbConnection", docDb);
             conn = docDb.getConnection();
-            if (conn != null) {
-                request.getServletContext().setAttribute("docConn", docDb);
+            if (conn != null) { // 如果文档数据库连接不成功
+                request.getSession().setAttribute("docConn", docDb);
                 // 连接本地数据库
                 Connection localdb = DBHelper.getConnection();
-                if (issave != null) {
-                    DBCommonsService dbCommons = new DBCommonsService(localdb);
-                    dbCommons.saveCommonsDB(docDb);
+                if (issave != null) { // 是否保存为常用数据库
+                    DBCommonsService dbCommons = new DBCommonsService(localdb); // 操作数据库的连接
+                    dbCommons.saveCommonsDB(docDb); // 需要保存的数据库连接(文档数据库)
                 }
-                request.getServletContext().setAttribute("localdb", localdb);
+                request.getSession().setAttribute("localdb", localdb);
                 mvc.redirect("TableList");
             } else {
                 request.setAttribute("msg", "目标数据库连接出了点问题");
                 mvc.forward("page/main");
             }
         } catch (Exception e) {
-            request.setAttribute("msg", e.getMessage());
+            request.setAttribute("msg", "后台异常: " + e.getClass());
             mvc.forward("page/login");
             e.printStackTrace();
         }

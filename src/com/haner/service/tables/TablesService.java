@@ -5,6 +5,8 @@ import com.haner.dao.tables.TablesDao;
 import com.haner.model.Tables;
 
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -48,19 +50,33 @@ public class TablesService {
         String insert_sql = "insert into db_tables (sche, tname, ctime, tcomment) values (?, ?, ?, ?)";
         String update_sql = "update db_tables set ctime=?, tcomment=? where ids=?";
         String view_sql = "select ids from db_tables where tname=? and sche=?";
-        int r = 0;
+        List<Object[]> insert_param = new LinkedList<>();
+        List<Object[]> update_param = new LinkedList<>();
         for (int i = 0; i < table_data.size(); i++) {
             Tables tables = table_data.get(i);
-            System.out.println("正在操作" + tables.getTname() + "表");
+            System.out.print("正在");
             Object o = tablesDao.getOne(view_sql, tables.getTname(), tables.getSche()); // 获取的是主键
             if (o == null) {
-                r += tablesDao.update(insert_sql, tables.getSche(), tables.getTname(), tables.getCtime(),
-                        tables.getTcomment());
+                Object[] inserts = {tables.getSche(), tables.getTname(), tables.getCtime(),
+                        tables.getTcomment()};
+                insert_param.add(inserts);
+                System.out.print("<添加>");
             } else {
-                r += tablesDao.update(update_sql, tables.getCtime(), tables.getTcomment(), o);
+                Object[] updates = {tables.getCtime(), tables.getTcomment(), o};
+                update_param.add(updates);
+                System.out.print("<更新>");
             }
+            System.out.println(tables.getTname());
         }
-        return r;
+        int len1 = 0;
+        if (insert_param.size() > 0) {
+            len1 = tablesDao.updateBatch(insert_sql, insert_param).length;
+        }
+        int len2 = 0;
+        if (update_param.size() > 0) {
+            len2 = tablesDao.updateBatch(update_sql, update_param).length;
+        }
+        return len1 + len2;
     }
 
     /**
