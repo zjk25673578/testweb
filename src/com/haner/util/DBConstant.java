@@ -32,7 +32,7 @@ public class DBConstant {
     /**
      * 访问数据库的用户密码
      */
-    public static final String PASSWORD = "";
+    public static final String PASSWORD = "123456";
 
     /**
      * 数据库驱动类文件(Oracle)
