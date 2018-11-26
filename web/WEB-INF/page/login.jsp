@@ -18,7 +18,6 @@
 <body>
 <div class="layui-container">
     <h1>MYSQL数据库查看手册</h1>
-    <cif test="${not empty msg}"><h3>${msg}</h3></cif>
     <hr class="layui-bg-red">
     <form id="login-form" class="layui-form layui-form-pane" action="${ctx}/Main" method="post">
         <div class="layui-form-item">
@@ -61,20 +60,17 @@
             </div>
         </div>
     </form>
-    <fieldset class="layui-elem-field" style="margin-top: 30px;">
+    <c:if test="${not empty msg}"><h3 style="color: red;">${msg}</h3></c:if>
+    <fieldset class="layui-elem-field" style="margin-top: 10px;">
         <legend>常用数据库</legend>
         <div class="layui-field-box">
             <c:forEach items="${list}" var="dbDoc">
                 <div class="layui-form-item">
-                    <div class="layui-input-inline">
-                        <a class="layui-btn layui-btn-xs"
-                           href="Login?username=${dbDoc.username}&password=${dbDoc.password}&address=${dbDoc.address}&dbtype=${dbDoc.dbtype}&docDbname=${dbDoc.dbname}">
-                                ${dbDoc.username} - ${dbDoc.dbname}
-                        </a>
-                    </div>
-                    <div class="layui-input-inline">
-                        <a class="layui-btn layui-btn-xs layui-btn-danger" href="DeleteCommons?ids=${dbDoc.ids}">删除</a>
-                    </div>
+                    <a class="layui-btn layui-btn-xs"
+                       href="Login?username=${dbDoc.username}&password=${dbDoc.password}&address=${dbDoc.address}&dbtype=${dbDoc.dbtype}&docDbname=${dbDoc.dbname}">
+                            ${dbDoc.username} - ${dbDoc.dbname}
+                    </a>
+                    <a class="layui-btn layui-btn-xs layui-btn-danger" href="DeleteCommons?ids=${dbDoc.ids}">删除</a>
                 </div>
             </c:forEach>
         </div>

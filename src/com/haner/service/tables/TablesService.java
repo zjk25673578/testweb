@@ -5,7 +5,6 @@ import com.haner.dao.tables.TablesDao;
 import com.haner.model.Tables;
 
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
