@@ -4,50 +4,73 @@
     <meta charset="utf-8">
     <title>${tab.tname}</title>
     <link rel="stylesheet" href="${ctx}/res/layui/css/layui.css">
-    <link rel="stylesheet" href="${ctx}/css/global.css">
     <script type="text/javascript" src="${ctx}/res/layui/layui.js"></script>
+    <style>
+        body {
+            padding: 20px 30px;
+        }
+
+        .note {
+            resize: none;
+        }
+    </style>
 </head>
 <body>
-<a class="layui-btn layui-btn-normal layui-btn-xs" href="TableList">返回表</a>
-<hr class="layui-bg-gray">
-<div class="layui-col-sm5">
-    <form class="layui-form" action="UpdateTableInfo" method="post">
+<div class="layui-container">
+    <a class="layui-btn layui-btn-normal layui-btn-sm" href="TableList">返回表</a>
+    <hr class="layui-bg-gray">
+    <form class="layui-form layui-form-pane" action="UpdateTableInfo" method="post">
         <input type="hidden" name="ids" value="${tab.ids}">
-        <table class="layui-table form-table" lay-size="sm">
-            <colgroup>
-                <col width="100">
-                <col width="250">
-            </colgroup>
-            <tr>
-                <td>数据库</td>
-                <td>${tab.sche}</td>
-            </tr>
-            <tr>
-                <td>表名</td>
-                <td>${tab.tname}</td>
-            </tr>
-            <tr>
-                <td>表注释</td>
-                <td>${tab.tcomment}</td>
-            </tr>
-            <tr>
-                <td>关联项目模块</td>
-                <td><textarea name="profunc" class="layui-textarea note">${tab.profunc}</textarea></td>
-            </tr>
-            <tr>
-                <td>关联的表</td>
-                <td><textarea name="related" class="layui-textarea note">${tab.related}</textarea></td>
-            </tr>
-            <tr>
-                <td>备注</td>
-                <td><textarea name="note" class="layui-textarea note">${tab.note}</textarea></td>
-            </tr>
-        </table>
+        <div class="layui-form-item">
+            <label class="layui-form-label">数据库</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" readonly value="${tab.sche}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">表名</label>
+            <div class="layui-input-inline">
+                <input class="layui-input" readonly value="${tab.tname}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">表注释</label>
+            <div class="layui-input-block">
+                <input class="layui-input" readonly value="${tab.tcomment}">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">项目模块</label>
+            <div class="layui-input-block">
+                <textarea name="profunc" placeholder="请输入内容" class="layui-textarea note">${tab.profunc}</textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">关联的表</label>
+            <div class="layui-input-block">
+                <textarea name="related" placeholder="请输入内容" class="layui-textarea note">${tab.related}</textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">备注</label>
+            <div class="layui-input-block">
+                <textarea name="note" placeholder="请输入内容" class="layui-textarea note">${tab.note}</textarea>
+            </div>
+        </div>
+
         <div class="layui-btn-container">
-            <input class="layui-btn layui-btn-normal layui-btn-xs" type="submit" value="保存">
-            <input class="layui-btn layui-btn-danger layui-btn-xs" type="reset" value="重写">
+            <input class="layui-btn layui-btn-normal layui-btn-sm" type="submit" value="保存">
+            <input class="layui-btn layui-btn-danger layui-btn-sm" type="reset" value="重写">
         </div>
     </form>
 </div>
+<script>
+    layui.use('form', function () {
+        var form = layui.form;
+    });
+</script>
 </body>
 </html>

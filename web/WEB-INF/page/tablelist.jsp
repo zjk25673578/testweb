@@ -33,7 +33,7 @@
         <col width="400">
         <col width="200">
         <col width="400">
-        <col width="">
+        <col width="120">
     </colgroup>
     <thead>
     <tr>

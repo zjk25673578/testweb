@@ -3,43 +3,51 @@
 <head>
     <title>MYSQL数据库登录</title>
     <link rel="stylesheet" href="${ctx}/res/layui/css/layui.css">
-    <link rel="stylesheet" href="${ctx}/css/global.css">
     <script type="text/javascript" src="${ctx}/res/layui/layui.js"></script>
     <script type="text/javascript" src="${ctx}/js/login.js"></script>
+    <style>
+        body {
+            padding: 20px 30px;
+        }
+
+        .layui-form-item .layui-form-checkbox {
+            margin-top: 0;
+        }
+    </style>
 </head>
 <body>
 <div class="layui-container">
-    <h1>输入相关信息</h1>
-    <c:if test="${not empty msg}"><h3>${msg}</h3></c:if>
+    <h1>MYSQL数据库查看手册</h1>
+    <cif test="${not empty msg}"><h3>${msg}</h3></cif>
     <hr class="layui-bg-red">
-    <form id="login-form" class="layui-form" action="${ctx}/Main" method="post">
+    <form id="login-form" class="layui-form layui-form-pane" action="${ctx}/Main" method="post">
         <div class="layui-form-item">
-            <label class="layui-form-label">用户名:</label>
+            <label class="layui-form-label">用户名</label>
             <div class="layui-input-inline">
                 <input name="username" value="${dbConnection.username}" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">密码:</label>
+            <label class="layui-form-label">密码</label>
             <div class="layui-input-inline">
                 <input name="password" value="${dbConnection.password}" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">数据库地址:</label>
+            <label class="layui-form-label">数据库地址</label>
             <div class="layui-input-inline">
                 <input name="address" value="${dbConnection.address}" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">数据库类型:</label>
+            <label class="layui-form-label">数据库类型</label>
             <div class="layui-input-inline">
                 <input name="dbtype" value="${empty dbConnection.dbtype ? 'mysql' : dbConnection.dbtype}"
                        class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">数据库名:</label>
+            <label class="layui-form-label">数据库名</label>
             <div class="layui-input-inline">
                 <input name="docDbname" value="${dbConnection.docDbname}" class="layui-input">
             </div>
