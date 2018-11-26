@@ -2,27 +2,43 @@
 <html>
 <head>
     <title>${tname}</title>
+    <link rel="stylesheet" href="${ctx}/res/layui/css/layui.css">
     <link rel="stylesheet" href="${ctx}/css/global.css">
+    <script type="text/javascript" src="${ctx}/res/layui/layui.js"></script>
     <script type="text/javascript" src="${ctx}/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="${ctx}/js/table.js"></script>
 </head>
 <body>
-<a href="TableList">返回表</a>
-<a href="RefreshCol?tname=${tname}">刷新这个表</a>
-<a href="Login">重新登录数据库</a>
-<hr>
-<h3>${tname}</h3>
-<table>
+<a class="layui-btn layui-btn-xs layui-btn-normal" href="TableList">返回表</a>
+<a class="layui-btn layui-btn-xs" href="RefreshCol?tname=${tname}">刷新这个表</a>
+<input class="layui-btn layui-btn-xs" type="button" value="Clear" onclick="clearSelections()"/>
+<fieldset class="layui-elem-field layui-field-title">
+    <legend>表名 - ${tname}</legend>
+</fieldset>
+<table class="layui-table" lay-size="sm">
+    <colgroup>
+        <col width="50">
+        <col width="180">
+        <col width="100">
+        <col width="100">
+        <col width="200">
+        <col width="400">
+        <col width="400">
+        <col width="85">
+    </colgroup>
     <thead>
-    <td>序号</td>
-    <td>列名</td>
-    <td>数据类型</td>
-    <td>数据最大长度</td>
-    <td>关联列或表</td>
-    <td>注释</td>
-    <td>备注</td>
-    <td>操作</td>
+    <tr>
+        <td>序号</td>
+        <td>列名</td>
+        <td>数据类型</td>
+        <td>数据最大长度</td>
+        <td>关联列或表</td>
+        <td>注释</td>
+        <td>备注</td>
+        <td>操作</td>
+    </tr>
     </thead>
+    <tbody>
     <c:forEach items="${columnsList}" var="columns" varStatus="vs">
         <tr>
             <td>${vs.index + 1}</td>
@@ -33,11 +49,15 @@
             <td>${columns.ccomment}</td>
             <td>${columns.note}</td>
             <td>
-                <a href="UpdateCol?ids=${columns.ids}">修改</a>
-                <a href="DeleteColumn?ids=${columns.ids}&tname=${columns.tname}" onclick="return delete_confirm();">删除</a>
+                <div class="layui-btn-group">
+                <a class="layui-btn layui-btn-xs" href="UpdateCol?ids=${columns.ids}">修改</a>
+                <a class="layui-btn layui-btn-xs layui-btn-danger" href="DeleteColumn?ids=${columns.ids}&tname=${columns.tname}"
+                   onclick="return delete_confirm();">删除</a>
+                </div>
             </td>
         </tr>
     </c:forEach>
+    </tbody>
 </table>
 </body>
 </html>

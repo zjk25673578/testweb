@@ -1,5 +1,9 @@
 * {
-    font-family: "Microsoft YaHei UI";
+    font-family: "Microsoft YaHei UI", "serif";
+}
+
+body {
+    padding: 20px 30px;
 }
 
 table {
@@ -14,9 +18,6 @@ table tr td {
 
 .note {
     resize: none;
-    font-size: 18px;
-    width: 300px;
-    height: 100px;
 }
 
 .fixed-color {
@@ -36,4 +37,21 @@ a {
     line-height: 20px;
     text-decoration: none;
     color: blue;
+}
+
+.layui-input {
+    height: 22px;
+    line-height: 22px;
+}
+
+.layui-form-label {
+    padding: 1px 15px;
+}
+
+.form-table tr td:nth-child(1) {
+    text-align: right;
+}
+
+.layui-form-item .layui-form-checkbox{
+    margin-top: 0;
 }

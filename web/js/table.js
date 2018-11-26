@@ -1,4 +1,5 @@
-$(function () {
+layui.use(["layer"], function () {
+
     $("table tr").hover(function () {
         $(this).css({"background": "#ffff66"});
     }, function () {
@@ -6,7 +7,7 @@ $(function () {
     });
 
     $("table tr").click(function () {
-        $(this).toggleClass("fixed-color");
+        $(this).toggleClass("fixed-color")
     });
 });
 
@@ -17,4 +18,8 @@ function delete_confirm() {
 
 function clearKeywords() {
     $("#keywords").val(null);
+}
+
+function clearSelections() {
+    $(".fixed-color").removeClass("fixed-color");
 }
