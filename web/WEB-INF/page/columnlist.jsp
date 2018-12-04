@@ -51,8 +51,7 @@
             <td>
                 <div class="layui-btn-group">
                 <a class="layui-btn layui-btn-xs" href="UpdateCol?ids=${columns.ids}">修改</a>
-                <a class="layui-btn layui-btn-xs layui-btn-danger" href="DeleteColumn?ids=${columns.ids}&tname=${columns.tname}"
-                   onclick="return delete_confirm();">删除</a>
+                <a class="layui-btn layui-btn-xs layui-btn-danger" onclick="delete_confirm('DeleteColumn?ids=${columns.ids}&tname=${columns.tname}')">删除</a>
                 </div>
             </td>
         </tr>

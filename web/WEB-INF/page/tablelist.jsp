@@ -12,8 +12,8 @@
 <body>
 <a href="RefreshTable" class="layui-btn layui-btn-xs">刷新数据</a>
 <a href="Login" class="layui-btn layui-btn-xs layui-btn-normal">重新登录数据库</a>
-<a href="DelTable" class="layui-btn layui-btn-xs layui-btn-danger" onclick="return delete_confirm();">删除所有表信息</a>
-<a href="DelColumn" class="layui-btn layui-btn-xs layui-btn-danger" onclick="return delete_confirm();">删除所有列信息</a>
+<a class="layui-btn layui-btn-xs layui-btn-danger" onclick="delete_confirm('DelTable');">删除所有表信息</a>
+<a class="layui-btn layui-btn-xs layui-btn-danger" onclick="delete_confirm('DelColumn');">删除所有列信息</a>
 <hr class="layui-bg-gray">
 <form action="${ctx}/TableList" method="post">
     <label class="layui-form-label" style="cursor: pointer;" for="keywords">表名:</label>
@@ -60,8 +60,7 @@
             <td>
                 <div class="layui-btn-group">
                     <a class="layui-btn layui-btn-xs" href="UpdateTable?ids=${tables.ids}">修改</a>
-                    <a class="layui-btn layui-btn-xs layui-btn-danger" href="DeleteTable?ids=${tables.ids}"
-                       onclick="return delete_confirm();">删除</a>
+                    <a class="layui-btn layui-btn-xs layui-btn-danger" onclick="delete_confirm('DeleteTable?ids=${tables.ids}')">删除</a>
                 </div>
             </td>
         </tr>

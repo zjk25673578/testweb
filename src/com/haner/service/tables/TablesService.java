@@ -41,7 +41,7 @@ public class TablesService {
      * 刷新整个表的信息
      * 通过表名做匹配
      *      可以匹配到做修改操作
-     *      匹配不到做更新操作
+     *      匹配不到做添加操作
      * @return
      * @throws Exception
      */
@@ -52,8 +52,7 @@ public class TablesService {
         String view_sql = "select ids from db_tables where tname=? and sche=?";
         List<Object[]> insert_param = new LinkedList<>();
         List<Object[]> update_param = new LinkedList<>();
-        for (int i = 0; i < table_data.size(); i++) {
-            Tables tables = table_data.get(i);
+        for (Tables tables : table_data) {
             System.out.print("正在");
             Object o = tablesDao.getOne(view_sql, tables.getTname(), tables.getSche()); // 获取的是主键
             if (o == null) {

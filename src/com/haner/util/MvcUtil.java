@@ -93,9 +93,7 @@ public class MvcUtil<T> {
      */
     public void forward(String page, Map<String, Object> map) throws ServletException, IOException {
         Set<String> set = map.keySet();
-        Iterator<String> iterator = set.iterator();
-        while (iterator.hasNext()) {
-            String key = iterator.next();
+        for (String key : set) {
             Object value = map.get(key);
             request.setAttribute(key, value);
         }
@@ -126,7 +124,7 @@ public class MvcUtil<T> {
      * @throws IllegalAccessException
      * @throws ParseException
      */
-    public T getEntity(T o) throws Exception {
+    public void getEntity(T o) throws Exception {
         // 通过传入的类的全限定名来反射出一个实体类对象
         Class<?> clazz = o.getClass();
 
@@ -184,7 +182,6 @@ public class MvcUtil<T> {
                 m.invoke(o, date);
             }
         }
-        return o;
     }
 
     /**
