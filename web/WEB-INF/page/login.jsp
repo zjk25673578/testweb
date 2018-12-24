@@ -65,13 +65,17 @@
         <legend>常用数据库</legend>
         <div class="layui-field-box">
             <c:forEach items="${list}" var="dbDoc">
-                <p>
-                    <a class="layui-btn layui-btn-xs"
-                       href="Login?username=${dbDoc.username}&password=${dbDoc.password}&address=${dbDoc.address}&dbtype=${dbDoc.dbtype}&docDbname=${dbDoc.dbname}">
-                            ${dbDoc.username} - ${dbDoc.dbname}
-                    </a>
-                    <a class="layui-btn layui-btn-xs layui-btn-danger" href="DeleteCommons?ids=${dbDoc.ids}">删除</a>
-                </p>
+                <div class="layui-form-item">
+                    <div class="layui-input-inline">
+                        <a class="layui-btn layui-btn-xs"
+                           href="Login?username=${dbDoc.username}&password=${dbDoc.password}&address=${dbDoc.address}&dbtype=${dbDoc.dbtype}&docDbname=${dbDoc.dbname}">
+                                ${dbDoc.username} - ${dbDoc.dbname}
+                        </a>
+                    </div>
+                    <div class="layui-input-inline">
+                        <a class="layui-btn layui-btn-xs layui-btn-danger" href="DeleteCommons?ids=${dbDoc.ids}">删除</a>
+                    </div>
+                </div>
             </c:forEach>
         </div>
     </fieldset>
