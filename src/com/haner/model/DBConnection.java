@@ -87,8 +87,7 @@ public class DBConnection {
         } else {
             System.err.println("数据库属性信息填写错误, 正在启用默认mysql数据库配置");
             this.setDriverClass(DRIVERCLASSNAME_MYSQL);
-            String url = URL_MYSQL;
-            connection = DBHelper.getConnection(driverClass, url, USERNAME, PASSWORD);
+            connection = DBHelper.getConnection(driverClass, URL_MYSQL, USERNAME, PASSWORD);
         }
         return connection;
     }
