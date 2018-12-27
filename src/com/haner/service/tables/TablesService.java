@@ -24,24 +24,37 @@ public class TablesService {
 
     /**
      * 获取表属性信息
-     * @param keywords 表名模糊查询条件
+     *
+     * @param tabname 表名模糊查询条件
+     * @param colname 列名模糊查询条件
      * @return
      * @throws Exception
      */
-    public List<Tables> tables(String keywords) throws Exception {
-        String sqlPlus = "";
-        if (keywords != null) {
-            sqlPlus = "and tname like '%" + keywords + "%'";
+    public List<Tables> tables(String tabname, String colname) throws Exception {
+        String tabSqlPlus = "";
+        String colSqlPlus = "";
+        if (tabname != null && tabname.trim().length() > 0) {
+            tabSqlPlus = " AND t.tname LIKE '%" + tabname + "%' ";
         }
-        String sql = "select * from db_tables where sche=? " + sqlPlus + " order by tname";
-        return tablesDao.query(sql, sourcedocDao.getDbConnection().getDocDbname());
+        if (colname != null && colname.trim().length() > 0) {
+            colSqlPlus = " AND t.tname IN (SELECT DISTINCT c.tname FROM db_columns c " +
+                    "WHERE c.colname LIKE '%" + colname + "%' AND c.sche=t.sche) ";
+        }
+        String sql = "SELECT * FROM db_tables t WHERE t.sche=? " +
+                tabSqlPlus +
+                colSqlPlus +
+                " ORDER BY t.tname";
+        System.out.println(sql);
+        String dbname = sourcedocDao.getDbConnection().getDocDbname();
+        return tablesDao.query(sql, dbname);
     }
 
     /**
      * 刷新整个表的信息
      * 通过表名做匹配
-     *      可以匹配到做修改操作
-     *      匹配不到做添加操作
+     * 可以匹配到做修改操作
+     * 匹配不到做添加操作
+     *
      * @return
      * @throws Exception
      */
@@ -80,6 +93,7 @@ public class TablesService {
 
     /**
      * 删除指定表信息
+     *
      * @param ids
      * @return
      */
@@ -108,6 +122,7 @@ public class TablesService {
 
     /**
      * 查询指定主键表属性信息
+     *
      * @param ids 主键
      * @return
      * @throws Exception
@@ -118,6 +133,7 @@ public class TablesService {
 
     /**
      * 更新指定表
+     *
      * @param tables
      * @return
      * @throws Exception

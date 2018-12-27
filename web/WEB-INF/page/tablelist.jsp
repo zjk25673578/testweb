@@ -10,15 +10,24 @@
     <script type="text/javascript" src="${ctx}/js/table.js"></script>
 </head>
 <body>
-<a href="RefreshTable" class="layui-btn layui-btn-xs">刷新数据</a>
+<a class="layui-btn layui-btn-xs" onclick="refreshTable('RefreshTable');">刷新数据</a>
 <a href="Login" class="layui-btn layui-btn-xs layui-btn-normal">重新登录数据库</a>
 <a class="layui-btn layui-btn-xs layui-btn-danger" onclick="delete_confirm('DelTable');">删除所有表信息</a>
 <a class="layui-btn layui-btn-xs layui-btn-danger" onclick="delete_confirm('DelColumn');">删除所有列信息</a>
+<a class="layui-btn layui-btn-xs layui-btn-warm" onclick="exportTable();">导出表结构</a>
 <hr class="layui-bg-gray">
 <form action="${ctx}/TableList" method="post">
-    <label class="layui-form-label" style="cursor: pointer;" for="keywords">表名:</label>
-    <div class="layui-input-inline">
-        <input class="layui-input" type="text" id="keywords" name="keywords" value="${keywords}"/>
+    <div class="layui-inline">
+        <label class="layui-form-label" style="cursor: pointer;" for="tabname">表名:</label>
+        <div class="layui-input-inline">
+            <input class="layui-input" type="text" id="tabname" name="tabname" value="${tabname}"/>
+        </div>
+    </div>
+    <div class="layui-inline">
+        <label class="layui-form-label" style="cursor: pointer;" for="colname">列名:</label>
+        <div class="layui-input-inline">
+            <input class="layui-input" type="text" id="colname" name="colname" value="${colname}"/>
+        </div>
     </div>
     <input class="layui-btn layui-btn-xs layui-btn-warm" type="submit" value="Search"/>
     <input class="layui-btn layui-btn-xs layui-btn-normal" type="button" value="Reset" onclick="clearKeywords()"/>
@@ -33,7 +42,7 @@
         <col width="400">
         <col width="200">
         <col width="400">
-        <col width="120">
+        <col width="160">
     </colgroup>
     <thead>
     <tr>
@@ -50,7 +59,7 @@
     <tbody>
     <c:forEach items="${list}" var="tables" varStatus="vs">
         <tr>
-            <td>${vs.index + 1}</td>
+            <td ids="${tables.ids}">${vs.index + 1}</td>
             <td>${tables.sche}</td>
             <td><a href="ColumnList?tname=${tables.tname}" target="_blank">${tables.tname}</a></td>
             <td>${tables.profunc}</td>
@@ -60,7 +69,8 @@
             <td>
                 <div class="layui-btn-group">
                     <a class="layui-btn layui-btn-xs" href="UpdateTable?ids=${tables.ids}">修改</a>
-                    <a class="layui-btn layui-btn-xs layui-btn-danger" onclick="delete_confirm('DeleteTable?ids=${tables.ids}')">删除</a>
+                    <a class="layui-btn layui-btn-xs layui-btn-danger"
+                       onclick="delete_confirm('DeleteTable?ids=${tables.ids}')">删除</a>
                 </div>
             </td>
         </tr>
