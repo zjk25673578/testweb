@@ -21,6 +21,7 @@
         <col width="180">
         <col width="100">
         <col width="100">
+        <col width="100">
         <col width="200">
         <col width="400">
         <col width="400">
@@ -32,6 +33,7 @@
         <td>列名</td>
         <td>数据类型</td>
         <td>数据最大长度</td>
+        <td>是否可为空</td>
         <td>关联列或表</td>
         <td>注释</td>
         <td>备注</td>
@@ -45,6 +47,7 @@
             <td>${columns.colname}</td>
             <td>${columns.coltype}</td>
             <td>${columns.clength}</td>
+            <td>${columns.isnull}</td>
             <td>${columns.related}</td>
             <td>${columns.ccomment}</td>
             <td>${columns.note}</td>

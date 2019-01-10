@@ -302,7 +302,7 @@ public abstract class BaseDao<E> {
             }
 
             if (field.getType() == String.class) {
-                method.invoke(orgObj, obj);
+                method.invoke(orgObj, obj.toString());
             }
             if (field.getType() == Byte.class) {
                 method.invoke(orgObj, obj == null ? obj : ((BigDecimal) obj).byteValue());

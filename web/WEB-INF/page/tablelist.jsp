@@ -14,7 +14,7 @@
 <a href="Login" class="layui-btn layui-btn-xs layui-btn-normal">重新登录数据库</a>
 <a class="layui-btn layui-btn-xs layui-btn-danger" onclick="delete_confirm('DelTable');">删除所有表信息</a>
 <a class="layui-btn layui-btn-xs layui-btn-danger" onclick="delete_confirm('DelColumn');">删除所有列信息</a>
-<a class="layui-btn layui-btn-xs layui-btn-warm" onclick="exportTable();">导出表结构</a>
+<a class="layui-btn layui-btn-xs layui-btn-warm" onclick="exportTable('ExportTable');">导出数据库文档</a>
 <hr class="layui-bg-gray">
 <form action="${ctx}/TableList" method="post">
     <div class="layui-inline">

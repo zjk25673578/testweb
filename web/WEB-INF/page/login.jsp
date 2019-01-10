@@ -66,11 +66,15 @@
         <div class="layui-field-box">
             <c:forEach items="${list}" var="dbDoc">
                 <div class="layui-form-item">
-                    <a class="layui-btn layui-btn-xs"
-                       href="Login?username=${dbDoc.username}&password=${dbDoc.password}&address=${dbDoc.address}&dbtype=${dbDoc.dbtype}&docDbname=${dbDoc.dbname}">
-                            ${dbDoc.username} - ${dbDoc.dbname}
-                    </a>
-                    <a class="layui-btn layui-btn-xs layui-btn-danger" href="DeleteCommons?ids=${dbDoc.ids}">删除</a>
+                    <div class="layui-input-inline">
+                        <a class="layui-btn layui-btn-xs"
+                           href="Login?username=${dbDoc.username}&password=${dbDoc.password}&address=${dbDoc.address}&dbtype=${dbDoc.dbtype}&docDbname=${dbDoc.dbname}">
+                                ${dbDoc.username} - ${dbDoc.dbname}
+                        </a>
+                    </div>
+                    <div class="layui-input-inline">
+                        <a class="layui-btn layui-btn-xs layui-btn-danger" href="DeleteCommons?ids=${dbDoc.ids}">删除</a>
+                    </div>
                 </div>
             </c:forEach>
         </div>

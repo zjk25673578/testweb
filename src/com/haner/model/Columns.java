@@ -11,6 +11,7 @@ public class Columns {
     private String colname;
     private String coltype;
     private String clength;
+    private String isnull;
     private String related;
     private String ccomment;
     private String note;
@@ -85,5 +86,13 @@ public class Columns {
 
     public void setSche(String sche) {
         this.sche = sche;
+    }
+
+    public String getIsnull() {
+        return isnull;
+    }
+
+    public void setIsnull(String isnull) {
+        this.isnull = isnull;
     }
 }

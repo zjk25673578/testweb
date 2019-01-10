@@ -1,8 +1,8 @@
 package com.haner.model;
 
-import java.sql.Connection;
-
 import com.haner.util.DBHelper;
+
+import java.sql.Connection;
 
 import static com.haner.util.DBConstant.*;
 

@@ -35,13 +35,13 @@ public class ColumnsService {
         List<Columns> list = columnsDao.query(sql, sche, tname);
         if (list == null || list.size() == 0) {
             String sqlInsert = "insert into db_columns(sche, tname, colname, coltype, " +
-                    "clength, ccomment) values (?, ?, ?, ?, ?, ?)";
+                    "clength, ccomment, isnull) values (?, ?, ?, ?, ?, ?, ?)";
             List<Columns> sourceColumns = sourcedocDao.columnDatas(sche, tname);
             List<Object[]> params = new ArrayList<>();
             for (int i = 0; i < sourceColumns.size(); i++) {
                 Columns col = sourceColumns.get(i);
                 Object[] os = {sche, col.getTname(), col.getColname(),
-                        col.getColtype(), col.getClength(), col.getCcomment()};
+                        col.getColtype(), col.getClength(), col.getCcomment(), col.getIsnull()};
                 params.add(os);
             }
             int[] results = columnsDao.updateBatch(sqlInsert, params);
@@ -60,9 +60,9 @@ public class ColumnsService {
      * @throws Exception
      */
     public void refreshColumns(String tname, String sche) throws Exception {
-        String sqlInsert = "insert into db_columns(sche, tname, colname, coltype, clength, ccomment) " +
-                "values (?, ?, ?, ?, ?, ?)";
-        String sqlUpdate = "update db_columns set coltype=?, clength=?, ccomment=? where ids=?";
+        String sqlInsert = "insert into db_columns(sche, tname, colname, coltype, isnull, clength, ccomment) " +
+                "values (?, ?, ?, ?, ?, ?, ?)";
+        String sqlUpdate = "update db_columns set coltype=?, clength=?, ccomment=?, isnull=? where ids=?";
         String view_sql = "select ids from db_columns where sche=? and tname=? and colname=?";
         List<Columns> sourceColumns = sourcedocDao.columnDatas(sche, tname);
         for (int i = 0; i < sourceColumns.size(); i++) {
@@ -70,11 +70,11 @@ public class ColumnsService {
             // 查询结果是当前数据的主键
             Object o = columnsDao.getOne(view_sql, sche, tname, column.getColname());
             if (o == null) {
-                columnsDao.update(sqlInsert, sche, tname, column.getColname(), column.getColtype(),
+                columnsDao.update(sqlInsert, sche, tname, column.getColname(), column.getColtype(), column.getIsnull(),
                         column.getClength(), column.getCcomment());
             } else {
                 columnsDao.update(sqlUpdate, column.getColtype(), column.getClength(),
-                        column.getCcomment(), o);
+                        column.getCcomment(), column.getIsnull(), o);
             }
         }
     }

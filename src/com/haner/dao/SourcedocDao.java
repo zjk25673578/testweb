@@ -69,7 +69,7 @@ public class SourcedocDao {
      * @throws Exception
      */
     public List<Columns> columnDatas(String sche, String tablename) throws Exception {
-        String sql = "SELECT TABLE_NAME, COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, COLUMN_COMMENT " +
+        String sql = "SELECT TABLE_NAME, COLUMN_NAME, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, IS_NULLABLE, COLUMN_COMMENT " +
                 "FROM `COLUMNS` WHERE TABLE_NAME=? AND TABLE_SCHEMA=?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, tablename);
@@ -83,6 +83,7 @@ public class SourcedocDao {
             columns.setColname(rs.getString("COLUMN_NAME"));
             columns.setColtype(rs.getString("DATA_TYPE"));
             columns.setClength(rs.getString("CHARACTER_MAXIMUM_LENGTH"));
+            columns.setIsnull(rs.getString("IS_NULLABLE"));
             columns.setCcomment(rs.getString("COLUMN_COMMENT"));
             list.add(columns);
         }

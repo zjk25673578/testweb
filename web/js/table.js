@@ -41,16 +41,16 @@ function exportTable(url) {
         offset: "40%",
         btn: ["确定", "取消"],
         yes: function (index) {
-            var id = "";
+            var ids = "";
             var $selections = $(".fixed-color");
             for (var i = 0; i < $selections.length; i++) {
-                id += $selections.eq(i).find("td").eq(0).attr("ids");
+                ids += $selections.eq(i).find("td").eq(0).attr("ids");
                 if (i !== $selections.length - 1) {
-                    id += ",";
+                    ids += ",";
                 }
             }
-            // window.location.href = url;
-            alert(id);
+            window.location.href = url + "?ids=" + ids;
+            // alert(ids);
             layer.close(index);
         }
     });

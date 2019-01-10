@@ -1,5 +1,7 @@
 package com.haner.util;
 
+import com.haner.model.DBConnection;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,11 +14,8 @@ import java.sql.Connection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
-import com.haner.model.DBConnection;
 
 /**
  * 此类用于以Model的形式直接接收前台传递的参数<br>
@@ -202,6 +201,15 @@ public class MvcUtil<T> {
     public DBConnection getDocConnection() {
         DBConnection docConn = (DBConnection) request.getSession().getAttribute("docConn");
         return docConn;
+    }
+
+    /**
+     * 获取请求中的参数
+     * @param paramName 前台input控件的name的值
+     * @return
+     */
+    public String get(String paramName) {
+        return request.getParameter(paramName);
     }
 
     public HttpServletRequest getRequest() {
