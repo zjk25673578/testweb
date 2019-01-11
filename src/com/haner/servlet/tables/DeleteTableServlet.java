@@ -18,8 +18,8 @@ import java.sql.Connection;
 @WebServlet("/DeleteTable")
 public class DeleteTableServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String ids = request.getParameter("ids");
         MvcUtil mvc = new MvcUtil(request, response);
+        String ids = mvc.get("ids");
         Connection connection = mvc.getLocalConnection(); // 获取数据存储对象
         TablesService tablesService = new TablesService(connection);
         int result = tablesService.deleteTable(ids);

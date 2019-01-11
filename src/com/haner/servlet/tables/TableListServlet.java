@@ -24,11 +24,10 @@ public class TableListServlet extends HttpServlet {
         MvcUtil mvc = new MvcUtil(request, response);
         // 本地需要存储数据的数据源
         Connection localdb = mvc.getLocalConnection(); // 获取数据存储对象
-        String tabname = request.getParameter("tabname"); // 查询条件的关键字
-        String colname = request.getParameter("colname"); // 查询条件的关键字
+        String tabname = mvc.get("tabname"); // 查询条件的关键字
+        String colname = mvc.get("colname"); // 查询条件的关键字
         try {
             if (localdb != null && !localdb.isClosed()) {
-
                 TablesService tablesService = new TablesService(localdb);
                 SourcedocDao sourcedocDao = new SourcedocDao(mvc.getDocConnection());
                 tablesService.setSourcedocDao(sourcedocDao);

@@ -6,9 +6,8 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Date;
-import java.util.List;
 
 /**
  * 数据库操作通用类<br>
@@ -100,12 +99,8 @@ public abstract class BaseDao<E> {
      * @since 1.0
      */
     public List<E> query(String sql, Object... objs) throws Exception {
-        if (!checkCount(sql, objs)) {
-            throw new Exception("占位符的个数与参数个数不相符 !");
-        }
-        PreparedStatement ps = conn.prepareStatement(sql);
-        init2(ps, objs);
-        ResultSet rs = ps.executeQuery();
+        ResultSet rs = (ResultSet) commonCheck(sql, objs).get("resultSet");
+        PreparedStatement ps = (PreparedStatement) commonCheck(sql, objs).get("prepareStatement");
         List<E> list = null;
         // 开始遍历查询结果
         if (rs.isBeforeFirst()) {
@@ -114,6 +109,49 @@ public abstract class BaseDao<E> {
             while (rs.next()) {
                 // 构建实体类
                 E orgObj = entryBuild2(rs);
+                // 添加到集合中
+                list.add(orgObj);
+            }
+        }
+        DBHelper.destroy(null, ps, rs);
+        return list;
+    }
+
+    public List<String> queryStringList(String sql, Object... objs) throws Exception {
+        List<Object> list = queryList(sql, objs);
+        List<String> listString = new ArrayList<>();
+        list.forEach((o) -> {
+            listString.add(o.toString());
+        });
+        return listString;
+    }
+
+    public List<Integer> queryIntegerList(String sql, Object... objs) throws Exception {
+        List<Object> list = queryList(sql, objs);
+        List<Integer> listInteger = new ArrayList<>();
+        list.forEach((o) -> {
+            Integer item = null;
+            try {
+                item = Integer.parseInt(o.toString());
+            } catch (NumberFormatException e) {
+                // e.printStackTrace();
+            }
+            listInteger.add(item);
+        });
+        return listInteger;
+    }
+
+    private List<Object> queryList(String sql, Object... objs) throws Exception {
+        ResultSet rs = (ResultSet) commonCheck(sql, objs).get("resultSet");
+        PreparedStatement ps = (PreparedStatement) commonCheck(sql, objs).get("prepareStatement");
+        List<Object> list = null;
+        // 开始遍历查询结果
+        if (rs.isBeforeFirst()) {
+            list = new ArrayList<>();
+            // 开始循环从ResultSet中取数据
+            while (rs.next()) {
+                // 构建实体类
+                Object orgObj = rs.getObject(1);
                 // 添加到集合中
                 list.add(orgObj);
             }
@@ -147,12 +185,8 @@ public abstract class BaseDao<E> {
      * @throws Exception
      */
     public Object getOne(String sql, Object... objs) throws Exception {
-        if (!checkCount(sql, objs)) {
-            throw new Exception("占位符的个数与参数个数不相符 !");
-        }
-        PreparedStatement ps = conn.prepareStatement(sql);
-        init2(ps, objs);
-        ResultSet rs = ps.executeQuery();
+        ResultSet rs = (ResultSet) commonCheck(sql, objs).get("resultSet");
+        PreparedStatement ps = (PreparedStatement) commonCheck(sql, objs).get("prepareStatement");
         Object o = null;
         if (rs.next()) {
             o = rs.getObject(1);
@@ -174,12 +208,7 @@ public abstract class BaseDao<E> {
     public int update(String sql, Object... objs) throws Exception {
         PreparedStatement ps = conn.prepareStatement(sql);
         if (objs != null) {
-            for (int i = 1; i <= objs.length; i++) {
-                if (objs[i - 1] instanceof Date) {
-                    objs[i - 1] = new Timestamp(((Date) objs[i - 1]).getTime());
-                }
-                ps.setObject(i, objs[i - 1]);
-            }
+            circleInitValue(ps, objs);
         }
         int result = ps.executeUpdate();
         DBHelper.destroy(null, ps, null);
@@ -208,12 +237,7 @@ public abstract class BaseDao<E> {
         int[] result;
         for (int i = 0; i < objsList.size(); i++) {
             Object[] os = objsList.get(i);
-            for (int j = 1; j <= os.length; j++) {
-                if (os[j - 1] instanceof Date) {
-                    os[j - 1] = new Timestamp(((Date) os[j - 1]).getTime());
-                }
-                ps.setObject(j, os[j - 1]);
-            }
+            circleInitValue(ps, os);
             ps.addBatch();
         }
         result = ps.executeBatch();
@@ -270,6 +294,27 @@ public abstract class BaseDao<E> {
             for (int i = 1; i <= objs.length; i++) {
                 ps.setObject(i, objs[i - 1]);
             }
+        }
+    }
+
+    private Map<String, Object> commonCheck(String sql, Object... objs) throws Exception {
+        if (!checkCount(sql, objs)) {
+            throw new Exception("占位符的个数与参数个数不相符 !");
+        }
+        PreparedStatement ps = conn.prepareStatement(sql);
+        init2(ps, objs);
+        Map<String, Object> r = new HashMap<>();
+        r.put("resultSet", ps.executeQuery());
+        r.put("prepareStatement", ps);
+        return r;
+    }
+
+    private void circleInitValue(PreparedStatement ps, Object...os) throws Exception {
+        for (int j = 1; j <= os.length; j++) {
+            if (os[j - 1] instanceof Date) {
+                os[j - 1] = new Timestamp(((Date) os[j - 1]).getTime());
+            }
+            ps.setObject(j, os[j - 1]);
         }
     }
 

@@ -3,6 +3,8 @@ package com.haner.model;
 import com.haner.util.DBHelper;
 
 import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.haner.util.DBConstant.*;
 
@@ -23,14 +25,18 @@ public class DBConnection {
         this.password = "";
     }
 
-    private boolean initCheck() {
+    private Map<String, Object> initCheck() {
         String[] fields = {username, address, dbtype};
-        for (int i = 0; i < fields.length; i++) {
-            if (fields[i] == null || "".equals(fields[i].trim())) {
-                return false;
+        Map<String, Object> result = new HashMap<>();
+        for (String field : fields) {
+            if (field == null || "".equals(field.trim())) {
+                result.put("success", false);
+                result.put("field", field);
+                return result;
             }
         }
-        return true;
+        result.put("success", true);
+        return result;
     }
 
     public String getUsername() {
@@ -66,16 +72,18 @@ public class DBConnection {
     }
 
     public Connection getConnection() throws Exception {
-        boolean flag = initCheck();
+        Map<String, Object> map = initCheck();
+        boolean flag = Boolean.parseBoolean(map.get("success").toString());
         if (flag) {
             switch (dbtype) {
                 case MYSQL:
-                    this.setDriverClass(DRIVERCLASSNAME_MYSQL);
+                    this.setDriverClass(DRIVER_CLASSNAME_MYSQL);
                     String db;
                     if (docDbname != null && !"".equals(docDbname.trim())) {
                         db = "information_schema";
                     } else {
-                        db = "mydb";
+                        // db = "mydb";
+                        throw new Exception("没有获取到任何远程数据库名称..");
                     }
                     String url_m = URL_MYSQL_PRE + address + MYSQL_PORT + db + URL_MYSQL_SUF;
                     connection = DBHelper.getConnection(driverClass, url_m, username, password == null ? "" : password);
@@ -85,9 +93,10 @@ public class DBConnection {
                     break;
             }
         } else {
-            System.err.println("数据库属性信息填写错误, 正在启用默认mysql数据库配置");
-            this.setDriverClass(DRIVERCLASSNAME_MYSQL);
-            connection = DBHelper.getConnection(driverClass, URL_MYSQL, USERNAME, PASSWORD);
+            throw new Exception(map.get("field") + "属性为null或者接收到空字符串 !");
+            // System.err.println("数据库属性信息填写错误, 正在启用默认mysql数据库配置");
+            // this.setDriverClass(DRIVER_CLASSNAME_MYSQL);
+            // connection = DBHelper.getConnection(driverClass, URL_MYSQL, USERNAME, PASSWORD);
         }
         return connection;
     }

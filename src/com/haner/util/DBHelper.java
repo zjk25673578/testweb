@@ -37,7 +37,7 @@ public class DBHelper {
      * @return
      */
     public static Connection getConnection() {
-        return getConnection(DRIVERCLASSNAME_MYSQL, URL_MYSQL,
+        return getConnection(DRIVER_CLASSNAME_MYSQL, URL_MYSQL,
                 USERNAME, PASSWORD);
     }
 

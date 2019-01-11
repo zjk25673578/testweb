@@ -25,24 +25,9 @@ public class DBConstant {
     public static final String MYSQL_PORT = ":3306" + S;
 
     /**
-     * 访问数据库的用户名
-     */
-    public static final String USERNAME = "root";
-
-    /**
-     * 访问数据库的用户密码
-     */
-    public static final String PASSWORD = "123456";
-
-    /**
      * 数据库驱动类文件(Oracle)
      */
     public static final String DRIVERCLASSNAME_ORCL = "oracle.jdbc.OracleDriver";
-
-    /**
-     * 数据库驱动类文件(mysql)
-     */
-    public static final String DRIVERCLASSNAME_MYSQL = "com.mysql.jdbc.Driver";
 
     /**
      * 数据库的地址(oracle)
@@ -57,7 +42,16 @@ public class DBConstant {
     public static final String URL_MYSQL_PRE = "jdbc:mysql:" + st(2);
     public static final String URL_MYSQL_PORT = ":3306" + S;
     public static final String URL_MYSQL_SUF = "?useUnicode=true&characterEncoding=utf-8";
+
+    /* ********************************************************************************************************* */
+    /* 本地必须要有的数据库配置(可随时更改) start */
+    /* 获取的远程数据库信息将存储在以下数据库中 */
+    public static final String USERNAME = "root";
+    public static final String PASSWORD = "123456";
+    public static final String DRIVER_CLASSNAME_MYSQL = "com.mysql.jdbc.Driver";
     public static final String URL_MYSQL = "jdbc:mysql://localhost:3306/mydb?useUnicode=true&characterEncoding=utf-8";
+    /* 本地必须要有的数据库配置 end */
+    /* ********************************************************************************************************* */
 
     /**
      * 重复输出分隔符
@@ -66,11 +60,11 @@ public class DBConstant {
      * @return
      */
     public static String st(int count) {
-        String temp = "";
+        StringBuilder temp = new StringBuilder();
         for (int i = 0; i < count; i++) {
-            temp += S;
+            temp.append(S);
         }
-        return temp;
+        return temp.toString();
     }
 
 }

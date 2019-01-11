@@ -2,11 +2,12 @@ package com.haner.service.tables;
 
 import com.haner.dao.SourcedocDao;
 import com.haner.dao.tables.TablesDao;
+import com.haner.model.Columns;
 import com.haner.model.Tables;
+import com.haner.service.columns.ColumnsService;
 
 import java.sql.Connection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * 业务逻辑
@@ -17,8 +18,15 @@ public class TablesService {
 
     private SourcedocDao sourcedocDao;
 
+    private ColumnsService columnsService;
+
     public TablesService(Connection connection) {
         tablesDao = new TablesDao(connection);
+    }
+
+    public TablesService(Connection connection, ColumnsService columnsService) {
+        tablesDao = new TablesDao(connection);
+        this.columnsService = columnsService;
     }
 
     /**
@@ -43,9 +51,23 @@ public class TablesService {
                 tabSqlPlus +
                 colSqlPlus +
                 " ORDER BY t.tname";
-        System.out.println(sql);
         String dbname = sourcedocDao.getDbConnection().getDocDbname();
         return tablesDao.query(sql, dbname);
+    }
+
+    public List<Tables> tables(String... tids) throws Exception {
+        if (tids != null && tids .length > 0) {
+            StringBuilder sql = new StringBuilder("select * from db_tables where ids in (");
+            for (int i = 0; i < tids.length; i++) {
+                sql.append("?");
+                if (i != tids.length - 1) {
+                    sql.append(",");
+                }
+            }
+            sql.append(")");
+            return tablesDao.query(sql.toString(), tids);
+        }
+        return null;
     }
 
     /**
@@ -131,6 +153,21 @@ public class TablesService {
     }
 
     /**
+     * 获取制定数据库的表id(主键)
+     *
+     * @return
+     */
+    public List<String> selectAllTableIdBySche(String sche) {
+        String sql = "select ids from db_tables where sche=?";
+        try {
+            return tablesDao.queryStringList(sql, sche);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
      * 更新指定表
      *
      * @param tables
@@ -142,11 +179,50 @@ public class TablesService {
         return tablesDao.update(sql, tables.getProfunc(), tables.getRelated(), tables.getNote(), tables.getIds());
     }
 
+    public Map<String, Object> exportDataBaseDoc(String ids) throws Exception {
+        String[] tableIds = {};
+        String sche = this.sourcedocDao.getDbConnection().getDocDbname();
+        if (ids != null) {
+            tableIds = ids.split(",");
+        } else {
+            // 执行全表操作
+            tableIds = selectAllTableIdBySche(sche).toArray(tableIds);
+        }
+        for (String tableId : tableIds) {
+            try {
+                String tableName = this.selectTableById(tableId).getTname();
+                columnsService.refreshColumns(tableName, sche);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("sche", sche);
+
+        List<Tables> tableList = this.tables(tableIds);
+
+        for (Tables table : tableList) {
+            String tname = table.getTname();
+            List<Columns> colList = columnsService.columns(tname, sche);
+            table.setCols(colList);
+        }
+        resultMap.put("tableList", tableList);
+        return resultMap;
+    }
+
     public SourcedocDao getSourcedocDao() {
         return sourcedocDao;
     }
 
     public void setSourcedocDao(SourcedocDao sourcedocDao) {
         this.sourcedocDao = sourcedocDao;
+    }
+
+    public ColumnsService getColumnsService() {
+        return columnsService;
+    }
+
+    public void setColumnsService(ColumnsService columnsService) {
+        this.columnsService = columnsService;
     }
 }

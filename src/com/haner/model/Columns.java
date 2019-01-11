@@ -15,6 +15,7 @@ public class Columns {
     private String related;
     private String ccomment;
     private String note;
+    private Tables table;
 
     public Integer getIds() {
         return ids;
@@ -94,5 +95,29 @@ public class Columns {
 
     public void setIsnull(String isnull) {
         this.isnull = isnull;
+    }
+
+    public Tables getTable() {
+        return table;
+    }
+
+    public void setTable(Tables table) {
+        this.table = table;
+    }
+
+    @Override
+    public String toString() {
+        return "Columns{" +
+                "ids=" + ids +
+                ", sche='" + sche + '\'' +
+                ", tname='" + tname + '\'' +
+                ", colname='" + colname + '\'' +
+                ", coltype='" + coltype + '\'' +
+                ", clength='" + clength + '\'' +
+                ", isnull='" + isnull + '\'' +
+                ", related='" + related + '\'' +
+                ", ccomment='" + ccomment + '\'' +
+                ", note='" + note + '\'' +
+                '}';
     }
 }

@@ -3,6 +3,7 @@ package com.haner.test;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +15,13 @@ import com.haner.util.DBConstant;
 
 public class TestDemo {
     public static void main(String[] args) {
+
+    }
+    public static void main111(String[] args) {
+        WordTest wt = new WordTest();
+        // wt.createWord();
+    }
+    public static void main2222(String[] args) {
         DBConnection dbConnection = new DBConnection();
         dbConnection.setUsername("root");
         dbConnection.setDbtype(DBConstant.MYSQL);

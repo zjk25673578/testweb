@@ -1,6 +1,7 @@
 package com.haner.model;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 表属性实体类
@@ -15,6 +16,7 @@ public class Tables {
     private String tcomment;
     private String related;
     private String note;
+    private List<Columns> cols;
 
     public Integer getIds() {
         return ids;
@@ -72,6 +74,22 @@ public class Tables {
         this.note = note;
     }
 
+    public String getSche() {
+        return sche;
+    }
+
+    public void setSche(String sche) {
+        this.sche = sche;
+    }
+
+    public List<Columns> getCols() {
+        return cols;
+    }
+
+    public void setCols(List<Columns> cols) {
+        this.cols = cols;
+    }
+
     @Override
     public String toString() {
         return "Tables{" +
@@ -81,16 +99,9 @@ public class Tables {
                 ", ctime=" + ctime +
                 ", profunc='" + profunc + '\'' +
                 ", tcomment='" + tcomment + '\'' +
-                ", related=" + related +
+                ", related='" + related + '\'' +
                 ", note='" + note + '\'' +
+                ", cols=" + cols +
                 '}';
-    }
-
-    public String getSche() {
-        return sche;
-    }
-
-    public void setSche(String sche) {
-        this.sche = sche;
     }
 }

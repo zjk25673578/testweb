@@ -65,8 +65,7 @@ public class ColumnsService {
         String sqlUpdate = "update db_columns set coltype=?, clength=?, ccomment=?, isnull=? where ids=?";
         String view_sql = "select ids from db_columns where sche=? and tname=? and colname=?";
         List<Columns> sourceColumns = sourcedocDao.columnDatas(sche, tname);
-        for (int i = 0; i < sourceColumns.size(); i++) {
-            Columns column = sourceColumns.get(i);
+        for (Columns column : sourceColumns) {
             // 查询结果是当前数据的主键
             Object o = columnsDao.getOne(view_sql, sche, tname, column.getColname());
             if (o == null) {

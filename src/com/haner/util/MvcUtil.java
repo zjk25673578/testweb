@@ -189,8 +189,7 @@ public class MvcUtil<T> {
      * @return
      */
     public Connection getLocalConnection() {
-        Connection localdb = (Connection) request.getSession().getAttribute("localdb");
-        return localdb;
+        return (Connection) request.getSession().getAttribute("localdb");
     }
 
     /**
@@ -199,8 +198,7 @@ public class MvcUtil<T> {
      * @return
      */
     public DBConnection getDocConnection() {
-        DBConnection docConn = (DBConnection) request.getSession().getAttribute("docConn");
-        return docConn;
+        return (DBConnection) request.getSession().getAttribute("docConn");
     }
 
     /**

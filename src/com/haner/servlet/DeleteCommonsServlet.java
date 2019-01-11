@@ -22,7 +22,7 @@ public class DeleteCommonsServlet extends HttpServlet {
         String ids = request.getParameter("ids");
         int i = 0;
         try {
-            Connection conn = DBHelper.getConnection(DRIVERCLASSNAME_MYSQL, URL_MYSQL, USERNAME, PASSWORD);
+            Connection conn = DBHelper.getConnection(DRIVER_CLASSNAME_MYSQL, URL_MYSQL, USERNAME, PASSWORD);
             DBCommonsService service = new DBCommonsService(conn);
             i = service.deleteCommonsDBs(ids);
         } catch (Exception e) {
