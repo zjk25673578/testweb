@@ -53,7 +53,7 @@ function exportTable(url) {
                 window.location.href = url + "?ids=" + ids;
             } else {
                 var count = $("#tbody").find("tr").length;
-                layer.confirm('<img src="' + _ctx + '/res/layui/images/face/43.gif" alt="[黑线]"> 真要导出全部的表啊 ? ! 真的很慢的 !<br>预计用时: ' + count * 2.5 + '秒', {
+                layer.confirm('<img src="' + _ctx + '/res/layui/images/face/43.gif" alt="[黑线]"> 真要导出全部的表啊 ? ! 真的很慢的 !<br>预计用时: ' + (count * 1.6) + '秒', {
                     offset: "40%",
                     btn: ["导吧, 慢慢等...", "取消"],
                     yes: function (idx) {
