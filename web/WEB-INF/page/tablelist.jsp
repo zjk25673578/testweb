@@ -56,7 +56,7 @@
             <td>操作</td>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="tbody">
         <c:forEach items="${list}" var="tables" varStatus="vs">
             <tr>
                 <td ids="${tables.ids}">${vs.index + 1}</td>

@@ -120,9 +120,7 @@ public abstract class BaseDao<E> {
     public List<String> queryStringList(String sql, Object... objs) throws Exception {
         List<Object> list = queryList(sql, objs);
         List<String> listString = new ArrayList<>();
-        list.forEach((o) -> {
-            listString.add(o.toString());
-        });
+        list.forEach((o) -> listString.add(o.toString()));
         return listString;
     }
 

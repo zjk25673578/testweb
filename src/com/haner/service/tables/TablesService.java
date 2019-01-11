@@ -179,10 +179,10 @@ public class TablesService {
         return tablesDao.update(sql, tables.getProfunc(), tables.getRelated(), tables.getNote(), tables.getIds());
     }
 
-    public Map<String, Object> exportDataBaseDoc(String ids) throws Exception {
+    public Map<String, Object> exportData(String ids) throws Exception {
         String[] tableIds = {};
         String sche = this.sourcedocDao.getDbConnection().getDocDbname();
-        if (ids != null) {
+        if (ids != null && ids.trim().length() > 0) {
             tableIds = ids.split(",");
         } else {
             // 执行全表操作

@@ -37,7 +37,7 @@ function refreshTable(url) {
 }
 
 function exportTable(url) {
-    layer.confirm('这将导出当前选中的表的sql语句 !', {
+    layer.confirm('这将导出当前选中的表的word文档<br>若未选中, 将导出所有', {
         offset: "40%",
         btn: ["确定", "取消"],
         yes: function (index) {
@@ -49,8 +49,19 @@ function exportTable(url) {
                     ids += ",";
                 }
             }
-            window.location.href = url + "?ids=" + ids;
-            // alert(ids);
+            if (ids.trim().length > 0) {
+                window.location.href = url + "?ids=" + ids;
+            } else {
+                var count = $("#tbody").find("tr").length;
+                layer.confirm('<img src="' + _ctx + '/res/layui/images/face/43.gif" alt="[黑线]"> 真要导出全部的表啊 ? ! 真的很慢的 !<br>预计用时: ' + count * 2.5 + '秒', {
+                    offset: "40%",
+                    btn: ["导吧, 慢慢等...", "取消"],
+                    yes: function (idx) {
+                        window.location.href = url;
+                        layer.close(idx);
+                    }
+                });
+            }
             layer.close(index);
         }
     });

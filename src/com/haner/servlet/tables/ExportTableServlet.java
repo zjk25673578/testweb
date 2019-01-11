@@ -1,10 +1,9 @@
 package com.haner.servlet.tables;
 
 import com.haner.dao.SourcedocDao;
-import com.haner.model.Tables;
 import com.haner.service.columns.ColumnsService;
 import com.haner.service.tables.TablesService;
-import com.haner.test.WordTest;
+import com.haner.util.FileNameUtil;
 import com.haner.util.MvcUtil;
 import com.haner.util.WordsUtil;
 
@@ -14,13 +13,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,32 +34,24 @@ public class ExportTableServlet extends HttpServlet {
         columnsService.setSourcedocDao(sourcedocDao);
         TablesService tablesService = new TablesService(localdb, columnsService);
         tablesService.setSourcedocDao(sourcedocDao);
+        byte[] bytes = new byte[0];
         try {
-//            Map<String, Object> dataMap = tablesService.exportDataBaseDoc(ids);
-            Map<String, Object> dataMap = new HashMap<>();
-            WordTest.getData2(dataMap);
-            // WordsUtil.createDbDoc(dataMap);
+            Map<String, Object> dataMap = tablesService.exportData(ids);
+            bytes = WordsUtil.createDbDocXml(dataMap);
         } catch (Exception e) {
             e.printStackTrace();
         }
-/*        String realPath = request.getServletContext().getRealPath("/files");
 
-        File f = new File(realPath + "/template.ftl");
-        System.out.println(f.getAbsolutePath());
-        if (f.exists()) {
-            FileInputStream fis = new FileInputStream(f);
-            String filename = URLEncoder.encode(f.getName(), "utf-8"); //解决中文文件名下载后乱码的问题
-            byte[] b = new byte[fis.available()];
-            fis.read(b);
-            response.setCharacterEncoding("utf-8");
-            response.setHeader("Content-Disposition", "attachment; filename=a.docx");
-            //获取响应报文输出流对象
-            ServletOutputStream out = response.getOutputStream();
-            //输出
-            out.write(b);
-            out.flush();
-            out.close();
-        }*/
+        response.setCharacterEncoding("UTF-8");
+        String outName = FileNameUtil.yearMonthDate() + '-' + sourcedocDao.getDbConnection().getDocDbname() + "数据库文档";
+        String dbName = new String(outName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
+        response.setHeader("Content-Disposition", "attachment; filename=" + dbName + ".doc");
+        //获取响应报文输出流对象
+        ServletOutputStream out = response.getOutputStream();
+        //输出
+        out.write(bytes);
+        out.flush();
+        out.close();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
