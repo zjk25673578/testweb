@@ -58,7 +58,7 @@ public class WordsUtil {
         Template template;
         byte[] bytes = null;
         try {
-            template = configuration.getTemplate("t.ftl"); //获取模板文件
+            template = configuration.getTemplate("t2.ftl"); //获取模板文件
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             Writer out = new OutputStreamWriter(baos, StandardCharsets.UTF_8); // 设置输出流得编码格式, 避免导出乱码
 

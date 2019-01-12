@@ -37,11 +37,11 @@ public class MyListener implements HttpSessionListener, HttpSessionAttributeList
             System.out.println("正在关闭Connection连接");
             DBHelper.destroy(docConn, null, null);
             DBHelper.destroy(localdb, null, null);
-            if (docConn.isClosed()) {
+            if (docConn != null && docConn.isClosed()) {
                 String schema = docConn.getSchema();
                 System.out.println(schema + "连接已经关闭 !");
             }
-            if (localdb.isClosed()) {
+            if (localdb != null && localdb.isClosed()) {
                 String schema = localdb.getSchema();
                 System.out.println(schema + "连接已经关闭 !");
             }

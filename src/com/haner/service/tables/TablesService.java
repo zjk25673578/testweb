@@ -207,6 +207,7 @@ public class TablesService {
             table.setCols(colList);
         }
         resultMap.put("tableList", tableList);
+        resultMap.put("databaseUrl", sourcedocDao.getDbConnection().getAddress());
         return resultMap;
     }
 
