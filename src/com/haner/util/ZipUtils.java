@@ -19,9 +19,7 @@ public class ZipUtils {
     public static void replaceItem(ZipInputStream zipInputStream,
                                    ZipOutputStream zipOutputStream,
                                    String itemName,
-                                   InputStream itemInputStream
-    ) {
-        //
+                                   InputStream itemInputStream) {
         if (null == zipInputStream) {
             return;
         }
@@ -44,24 +42,12 @@ public class ZipUtils {
                 zipOutputStream.putNextEntry(entryOut);
                 // 缓冲区
                 byte[] buf = new byte[8 * 1024];
-                int len;
 
-                if (entryName.equals(itemName)) {
-                    // 使用替换流
-                    while ((len = (itemInputStream.read(buf))) > 0) {
-                        zipOutputStream.write(buf, 0, len);
-                    }
-                } else {
-                    // 输出普通Zip流
-                    while ((len = (zipInputStream.read(buf))) > 0) {
-                        zipOutputStream.write(buf, 0, len);
-                    }
-                }
-                // 关闭此 entry
-                zipOutputStream.closeEntry();
+                replace(entryName, itemName, zipInputStream,
+                        zipOutputStream, itemInputStream, buf);
 
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             //e.printStackTrace();
@@ -69,6 +55,77 @@ public class ZipUtils {
             close(zipInputStream);
             close(zipOutputStream);
         }
+    }
+
+    public static byte[] replaceItemReturnBytes(ZipInputStream zipInputStream,
+                                                ZipOutputStream zipOutputStream,
+                                                String itemName,
+                                                InputStream itemInputStream) {
+        if (null == zipInputStream) {
+            return null;
+        }
+        if (null == zipOutputStream) {
+            return null;
+        }
+        if (null == itemName) {
+            return null;
+        }
+        if (null == itemInputStream) {
+            return null;
+        }
+        //
+        ZipEntry entryIn;
+        byte[] buf = null;
+        try {
+            while ((entryIn = zipInputStream.getNextEntry()) != null) {
+                String entryName = entryIn.getName();
+                ZipEntry entryOut = new ZipEntry(entryName);
+                // 只使用 name
+                zipOutputStream.putNextEntry(entryOut);
+                // 缓冲区
+                // byte[] buf = new byte[8 * 1024];
+                buf = new byte[zipInputStream.available()];
+                replace2(entryName, itemName, zipInputStream, itemInputStream, buf);
+            }
+            return buf;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            //e.printStackTrace();
+            close(itemInputStream);
+            close(zipInputStream);
+            close(zipOutputStream);
+        }
+        return null;
+    }
+
+    private static void replace(String entryName, String itemName, ZipInputStream zipInputStream,
+                                ZipOutputStream zipOutputStream, InputStream itemInputStream, byte[] buf) throws Exception {
+        int len;
+        if (entryName.equals(itemName)) {
+            // 使用替换流
+            while ((len = (itemInputStream.read(buf))) > 0) {
+                zipOutputStream.write(buf, 0, len);
+            }
+        } else {
+            // 输出普通Zip流
+            while ((len = (zipInputStream.read(buf))) > 0) {
+                zipOutputStream.write(buf, 0, len);
+            }
+        }
+        // 关闭此 entry
+        zipOutputStream.closeEntry();
+    }
+
+    private static void replace2(String entryName, String itemName, ZipInputStream zipInputStream, InputStream itemInputStream, byte[] buf) throws Exception {
+        int len;
+        if (entryName.equals(itemName)) {
+            len = itemInputStream.read(buf);
+        } else {
+            // 输出普通Zip流
+            len = zipInputStream.read(buf);
+        }
+        System.out.println("读取的字节数组的长度" + len);
     }
 
     /**

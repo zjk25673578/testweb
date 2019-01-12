@@ -34,10 +34,10 @@ public class ExportTableServlet extends HttpServlet {
         columnsService.setSourcedocDao(sourcedocDao);
         TablesService tablesService = new TablesService(localdb, columnsService);
         tablesService.setSourcedocDao(sourcedocDao);
-        byte[] bytes = new byte[0];
+        byte[] bytes = null;
         try {
             Map<String, Object> dataMap = tablesService.exportData(ids);
-            bytes = WordsUtil.createDbDocXml(dataMap);
+            bytes = WordsUtil.createXml2Doc(dataMap);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -48,6 +48,9 @@ public class ExportTableServlet extends HttpServlet {
         response.setHeader("Content-Disposition", "attachment; filename=" + dbName + ".doc");
         //获取响应报文输出流对象
         ServletOutputStream out = response.getOutputStream();
+        if (bytes == null) {
+            bytes = new byte[0];
+        }
         //输出
         out.write(bytes);
         out.flush();

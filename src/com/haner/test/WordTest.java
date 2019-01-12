@@ -1,91 +1,62 @@
 package com.haner.test;
 
+import com.haner.util.ZipUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 public class WordTest {
 
-    private Configuration configuration;
-
-    public WordTest() {
-        configuration = new Configuration(Configuration.VERSION_2_3_28);
-        configuration.setDefaultEncoding("UTF-8");
-    }
-
     public static void main(String[] args) {
-        WordTest test = new WordTest();
-        test.createWord("t.ftl");
-    }
-
-    public void createWord(String tmp) {
         Map<String, Object> dataMap = new HashMap<>();
-        getData2(dataMap);
-        configuration.setClassForTemplateLoading(this.getClass(), "/files/");//模板文件所在路径
-        Template t;
-        Writer out;
-        try {
-            t = configuration.getTemplate(tmp); //获取模板文件
-            File outFile = new File("D:/dbDoc/" + new Date().getTime() + ".docx"); //导出文件
-            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), StandardCharsets.UTF_8));
-            t.process(dataMap, out); //将填充数据填入模板文件并输出到目标文件
-            out.flush();
-            out.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void getData(Map<String, Object> dataMap) {
-        dataMap.put("sche", "stms");
         List<Map<String, Object>> dataList = new ArrayList<>();
-        Map<String, Object> item;
+        dataMap.put("title", "标题");
         for (int i = 1; i <= 5; i++) {
-            item = new HashMap<>();
-            item.put("num", i);
-            item.put("tableName", "sys_city" + i);
-            item.put("tableDesp", "地区表" + i);
+            Map<String, Object> data = new HashMap<>();
+            data.put("name", "名称" + i);
             List<Map<String, Object>> itemList = new ArrayList<>();
-            for (int j = 1; j <= 10; j++) {
-                Map<String, Object> it = new HashMap<>();
-                it.put("colName", "id" + i);
-                it.put("colType", "varchar" + i);
-                it.put("colLen", "500" + i);
-                it.put("isNull", "YES" + i);
-                it.put("related", "st_user" + i);
-                it.put("comment", "地区信息表" + i);
-                it.put("note", "关联表结构" + i);
-                itemList.add(it);
+            for (int j = 0; j < 3; j++) {
+                Map<String, Object> item = new HashMap<>();
+                item.put("stuName", "stuName" + j);
+                item.put("project", "project" + j);
+                item.put("score", "score" + j);
+                itemList.add(item);
             }
-            item.put("columns", itemList);
-            dataList.add(item);
+            data.put("itemList", itemList);
+            dataList.add(data);
         }
         dataMap.put("dataList", dataList);
 
-        /*List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-        for (int i = 0; i < 10; i++) {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("xuehao", i);
-            map.put("neirong", "内容" + i);
-            list.add(map);
+        Configuration configuration = new Configuration(Configuration.VERSION_2_3_28);
+        configuration.setDefaultEncoding("UTF-8");
+        configuration.setClassForTemplateLoading(WordTest.class, "/files/");//模板文件所在路径
+
+        try {
+            Template template = configuration.getTemplate("document.xml");
+            String outFilePath = "C:\\Users\\Administrator\\Desktop\\New Folder\\data.xml";
+            File docFile = new File(outFilePath);
+            FileOutputStream fos = new FileOutputStream(docFile);
+            OutputStreamWriter oWriter = new OutputStreamWriter(fos);
+            Writer out = new BufferedWriter(oWriter, 10240);
+            template.process(dataMap, out);
+            out.flush();
+            out.close();
+            // ZipUtils 是一个工具类，主要用来替换，具体可以看github工程
+            ZipInputStream zipInputStream = ZipUtils.wrapZipInputStream(new FileInputStream(new File("C:\\Users\\Administrator\\Desktop\\New Folder\\test.zip")));
+            ZipOutputStream zipOutputStream = ZipUtils.wrapZipOutputStream(new FileOutputStream(new File("C:\\Users\\Administrator\\Desktop\\New Folder\\t.docx")));
+            String itemname = "word/document.xml";
+            ZipUtils.replaceItem(zipInputStream, zipOutputStream, itemname, new FileInputStream(new File("C:\\Users\\Administrator\\Desktop\\New Folder\\data.xml")));
+
+        } catch (IOException | TemplateException e) {
+            e.printStackTrace();
         }
-        dataMap.put("list", list);*/
+
+        System.out.println("成功生成数据库文档");
     }
 
-    public static void getData2(Map<String, Object> dataMap) {
-        dataMap.put("sche", "stms");
-        dataMap.put("tableName", "stms");
-        dataMap.put("num", "stms");
-        dataMap.put("tableDesp", "stms");
-        dataMap.put("colName", "stms");
-        dataMap.put("colType", "stms");
-        dataMap.put("colLen", "stms");
-        dataMap.put("isNull", "stms");
-        dataMap.put("related", "stms");
-        dataMap.put("comment", "stms");
-        dataMap.put("note", "stms");
-    }
 }
