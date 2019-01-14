@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.sql.Connection;
 
 /**
- * 清空列信息表
+ * 清空列相关所有信息表
  */
 @WebServlet("/DelColumn")
 public class DelColumnServlet extends HttpServlet {

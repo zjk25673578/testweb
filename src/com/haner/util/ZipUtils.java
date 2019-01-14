@@ -9,7 +9,7 @@ import java.util.zip.ZipOutputStream;
 
 public class ZipUtils {
     /**
-     * 替换某个 item,
+     * 替换zip压缩包中某个item
      *
      * @param zipInputStream  zip文件的zip输入流
      * @param zipOutputStream 输出的zip输出流
@@ -57,48 +57,6 @@ public class ZipUtils {
         }
     }
 
-    public static byte[] replaceItemReturnBytes(ZipInputStream zipInputStream,
-                                                ZipOutputStream zipOutputStream,
-                                                String itemName,
-                                                InputStream itemInputStream) {
-        if (null == zipInputStream) {
-            return null;
-        }
-        if (null == zipOutputStream) {
-            return null;
-        }
-        if (null == itemName) {
-            return null;
-        }
-        if (null == itemInputStream) {
-            return null;
-        }
-        //
-        ZipEntry entryIn;
-        byte[] buf = null;
-        try {
-            while ((entryIn = zipInputStream.getNextEntry()) != null) {
-                String entryName = entryIn.getName();
-                ZipEntry entryOut = new ZipEntry(entryName);
-                // 只使用 name
-                zipOutputStream.putNextEntry(entryOut);
-                // 缓冲区
-                // byte[] buf = new byte[8 * 1024];
-                buf = new byte[zipInputStream.available()];
-                replace2(entryName, itemName, zipInputStream, itemInputStream, buf);
-            }
-            return buf;
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            //e.printStackTrace();
-            close(itemInputStream);
-            close(zipInputStream);
-            close(zipOutputStream);
-        }
-        return null;
-    }
-
     private static void replace(String entryName, String itemName, ZipInputStream zipInputStream,
                                 ZipOutputStream zipOutputStream, InputStream itemInputStream, byte[] buf) throws Exception {
         int len;
@@ -115,17 +73,6 @@ public class ZipUtils {
         }
         // 关闭此 entry
         zipOutputStream.closeEntry();
-    }
-
-    private static void replace2(String entryName, String itemName, ZipInputStream zipInputStream, InputStream itemInputStream, byte[] buf) throws Exception {
-        int len;
-        if (entryName.equals(itemName)) {
-            len = itemInputStream.read(buf);
-        } else {
-            // 输出普通Zip流
-            len = zipInputStream.read(buf);
-        }
-        System.out.println("读取的字节数组的长度" + len);
     }
 
     /**

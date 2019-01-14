@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 业务逻辑
+ * 列信息业务逻辑
  */
 public class ColumnsService {
 
@@ -38,8 +38,7 @@ public class ColumnsService {
                     "clength, ccomment, isnull) values (?, ?, ?, ?, ?, ?, ?)";
             List<Columns> sourceColumns = sourcedocDao.columnDatas(sche, tname);
             List<Object[]> params = new ArrayList<>();
-            for (int i = 0; i < sourceColumns.size(); i++) {
-                Columns col = sourceColumns.get(i);
+            for (Columns col : sourceColumns) {
                 Object[] os = {sche, col.getTname(), col.getColname(),
                         col.getColtype(), col.getClength(), col.getCcomment(), col.getIsnull()};
                 params.add(os);
@@ -98,9 +97,9 @@ public class ColumnsService {
      * 清空列属性信息表
      */
     public void delCols() {
-        String sql = "delete from db_columns";
+        String sql = "delete from db_columns where sche=?";
         try {
-            columnsDao.update(sql);
+            columnsDao.update(sql, sourcedocDao.getDbConnection().getDocDbname());
         } catch (Exception e) {
             e.printStackTrace();
         }

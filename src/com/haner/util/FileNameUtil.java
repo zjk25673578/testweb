@@ -56,7 +56,7 @@ public class FileNameUtil {
     }
 
     /**
-     *
+     * 获取指定格式的当前日期字符串
      * @return
      */
     public static String yearMonthDate(String pattern) {
@@ -64,7 +64,7 @@ public class FileNameUtil {
     }
 
     /**
-     *
+     * 以yyyyMMdd的形式获取当前日期字符串
      * @return
      */
     public static String yearMonthDate() {

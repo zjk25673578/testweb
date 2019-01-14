@@ -68,22 +68,23 @@
                 </w:rPr>
             </w:pPr>
         </w:p>
-        <w:p w:rsidR="008B2E15" w:rsidRPr="008B2E15" w:rsidRDefault="008B2E15" w:rsidP="005B0811">
-            <w:pPr>
-                <w:pStyle w:val="a5"/>
-                <w:numPr>
-                    <w:ilvl w:val="0"/>
-                    <w:numId w:val="2"/>
-                </w:numPr>
-                <w:spacing w:line="400" w:lineRule="exact"/>
-                <w:ind w:firstLineChars="0"/>
-                <w:jc w:val="left"/>
-                <w:rPr>
-                    <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑"/>
-                </w:rPr>
-            </w:pPr>
-        </w:p>
-        <w:p w:rsidR="004562E3" w:rsidRPr="00D57BD0" w:rsidRDefault="004562E3" w:rsidP="005B0811">
+        <#list tableList as table>
+            <w:p w:rsidR="008B2E15" w:rsidRPr="008B2E15" w:rsidRDefault="008B2E15" w:rsidP="005B0811">
+                <w:pPr>
+                    <w:pStyle w:val="a5"/>
+                    <w:numPr>
+                        <w:ilvl w:val="0"/>
+                        <w:numId w:val="2"/>
+                    </w:numPr>
+                    <w:spacing w:line="400" w:lineRule="exact"/>
+                    <w:ind w:firstLineChars="0"/>
+                    <w:jc w:val="left"/>
+                    <w:rPr>
+                        <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑"/>
+                    </w:rPr>
+                </w:pPr>
+            </w:p>
+            <w:p w:rsidR="004562E3" w:rsidRPr="00D57BD0" w:rsidRDefault="004562E3" w:rsidP="005B0811">
             <w:pPr>
                 <w:spacing w:line="400" w:lineRule="exact"/>
                 <w:jc w:val="left"/>
@@ -104,15 +105,15 @@
                 <w:t xml:space="preserve">: </w:t>
             </w:r>
             <w:r w:rsidR="005B0811">
-                <w:rPr>
-                    <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑" w:hint="eastAsia"/>
-                </w:rPr>
-                <w:t>${table.tname}</w:t>
+            <w:rPr>
+                <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑" w:hint="eastAsia"/>
+            </w:rPr>
+            <w:t>${table.tname}</w:t>
             </w:r>
             <w:bookmarkStart w:id="0" w:name="_GoBack"/>
             <w:bookmarkEnd w:id="0"/>
-        </w:p>
-        <w:p w:rsidR="004562E3" w:rsidRDefault="004562E3" w:rsidP="005B0811">
+            </w:p>
+            <w:p w:rsidR="004562E3" w:rsidRDefault="004562E3" w:rsidP="005B0811">
             <w:pPr>
                 <w:spacing w:line="400" w:lineRule="exact"/>
                 <w:jc w:val="left"/>
@@ -124,7 +125,7 @@
                 <w:rPr>
                     <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑" w:hint="eastAsia"/>
                 </w:rPr>
-                <w:t>描述</w:t>
+                <w:t>表注释</w:t>
             </w:r>
             <w:r w:rsidR="002E700A">
                 <w:rPr>
@@ -133,13 +134,13 @@
                 <w:t xml:space="preserve">: </w:t>
             </w:r>
             <w:r w:rsidR="005B0811">
-                <w:rPr>
-                    <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑" w:hint="eastAsia"/>
-                </w:rPr>
-                <w:t>${table.tcomment!"无注释"}</w:t>
+            <w:rPr>
+                <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑" w:hint="eastAsia"/>
+            </w:rPr>
+            <w:t>${table.tcomment!"无注释"}</w:t>
             </w:r>
-        </w:p>
-        <w:p w:rsidR="005B0811" w:rsidRPr="00D57BD0" w:rsidRDefault="005B0811" w:rsidP="005B0811">
+            </w:p>
+            <w:p w:rsidR="005B0811" w:rsidRPr="00D57BD0" w:rsidRDefault="005B0811" w:rsidP="005B0811">
             <w:pPr>
                 <w:spacing w:line="400" w:lineRule="exact"/>
                 <w:jc w:val="left"/>
@@ -148,13 +149,13 @@
                 </w:rPr>
             </w:pPr>
             <w:r>
-                <w:rPr>
-                    <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑" w:hint="eastAsia"/>
-                </w:rPr>
-                <w:t>备注: ${table.note!"无备注"}</w:t>
+            <w:rPr>
+                <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑" w:hint="eastAsia"/>
+            </w:rPr>
+            <w:t>备注: ${table.note!"无备注"}</w:t>
             </w:r>
-        </w:p>
-        <w:tbl>
+            </w:p>
+            <w:tbl>
             <w:tblPr>
                 <w:tblW w:w="9740" w:type="dxa"/>
                 <w:jc w:val="center"/>
@@ -327,166 +328,169 @@
                     </w:p>
                 </w:tc>
             </w:tr>
-            <w:tr w:rsidR="005B0811" w:rsidRPr="005B0811" w:rsidTr="005B0811">
+            <#list table.cols as column>
+                <w:tr w:rsidR="005B0811" w:rsidRPr="005B0811" w:rsidTr="005B0811">
                 <w:trPr>
                     <w:jc w:val="center"/>
                 </w:trPr>
                 <w:tc>
-                    <w:tcPr>
-                        <w:tcW w:w="1675" w:type="dxa"/>
-                        <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                    </w:tcPr>
-                    <w:p w:rsidR="005B0811" w:rsidRPr="005B0811" w:rsidRDefault="005B0811" w:rsidP="005B0811">
-                        <w:pPr>
-                            <w:jc w:val="left"/>
-                            <w:rPr>
-                                <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑"/>
-                                <w:sz w:val="18"/>
-                                <w:szCs w:val="18"/>
-                            </w:rPr>
-                        </w:pPr>
-                        <w:r w:rsidRPr="005B0811">
-                            <w:rPr>
-                                <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑" w:hint="eastAsia"/>
-                                <w:sz w:val="18"/>
-                                <w:szCs w:val="18"/>
-                            </w:rPr>
-                            <w:t>${column.colname}</w:t>
-                        </w:r>
-                    </w:p>
+                <w:tcPr>
+                    <w:tcW w:w="1675" w:type="dxa"/>
+                    <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+                </w:tcPr>
+                <w:p w:rsidR="005B0811" w:rsidRPr="005B0811" w:rsidRDefault="005B0811" w:rsidP="005B0811">
+                <w:pPr>
+                    <w:jc w:val="left"/>
+                    <w:rPr>
+                        <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑"/>
+                        <w:sz w:val="18"/>
+                        <w:szCs w:val="18"/>
+                    </w:rPr>
+                </w:pPr>
+                <w:r w:rsidRPr="005B0811">
+                <w:rPr>
+                    <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑" w:hint="eastAsia"/>
+                    <w:sz w:val="18"/>
+                    <w:szCs w:val="18"/>
+                </w:rPr>
+                <w:t>${column.colname}</w:t>
+                </w:r>
+                </w:p>
                 </w:tc>
                 <w:tc>
-                    <w:tcPr>
-                        <w:tcW w:w="1303" w:type="dxa"/>
-                        <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                    </w:tcPr>
-                    <w:p w:rsidR="005B0811" w:rsidRPr="005B0811" w:rsidRDefault="005B0811" w:rsidP="005B0811">
-                        <w:pPr>
-                            <w:jc w:val="left"/>
-                            <w:rPr>
-                                <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑"/>
-                                <w:sz w:val="18"/>
-                                <w:szCs w:val="18"/>
-                            </w:rPr>
-                        </w:pPr>
-                        <w:r>
-                            <w:rPr>
-                                <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑" w:hint="eastAsia"/>
-                                <w:sz w:val="18"/>
-                                <w:szCs w:val="18"/>
-                            </w:rPr>
-                            <w:t>${column.coltype}</w:t>
-                        </w:r>
-                    </w:p>
-                </w:tc>
-                <w:tc>
-                    <w:tcPr>
-                        <w:tcW w:w="1134" w:type="dxa"/>
-                        <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                    </w:tcPr>
-                    <w:p w:rsidR="005B0811" w:rsidRPr="005B0811" w:rsidRDefault="005B0811" w:rsidP="005B0811">
-                        <w:pPr>
-                            <w:jc w:val="left"/>
-                            <w:rPr>
-                                <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑"/>
-                                <w:sz w:val="18"/>
-                                <w:szCs w:val="18"/>
-                            </w:rPr>
-                        </w:pPr>
-                        <w:r>
-                            <w:rPr>
-                                <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑" w:hint="eastAsia"/>
-                                <w:sz w:val="18"/>
-                                <w:szCs w:val="18"/>
-                            </w:rPr>
-                            <w:t>${column.clength!""}</w:t>
-                        </w:r>
-                    </w:p>
-                </w:tc>
-                <w:tc>
-                    <w:tcPr>
-                        <w:tcW w:w="1141" w:type="dxa"/>
-                        <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                    </w:tcPr>
-                    <w:p w:rsidR="005B0811" w:rsidRPr="005B0811" w:rsidRDefault="005B0811" w:rsidP="005B0811">
-                        <w:pPr>
-                            <w:jc w:val="left"/>
-                            <w:rPr>
-                                <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑"/>
-                                <w:sz w:val="18"/>
-                                <w:szCs w:val="18"/>
-                            </w:rPr>
-                        </w:pPr>
-                        <w:r>
-                            <w:rPr>
-                                <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑" w:hint="eastAsia"/>
-                                <w:sz w:val="18"/>
-                                <w:szCs w:val="18"/>
-                            </w:rPr>
-                            <w:t>${column.isnull}</w:t>
-                        </w:r>
-                    </w:p>
-                </w:tc>
-                <w:tc>
-                    <w:tcPr>
-                        <w:tcW w:w="3069" w:type="dxa"/>
-                        <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                    </w:tcPr>
-                    <w:p w:rsidR="005B0811" w:rsidRPr="005B0811" w:rsidRDefault="005B0811" w:rsidP="005B0811">
-                        <w:pPr>
-                            <w:jc w:val="left"/>
-                            <w:rPr>
-                                <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑"/>
-                                <w:sz w:val="18"/>
-                                <w:szCs w:val="18"/>
-                            </w:rPr>
-                        </w:pPr>
-                        <w:r>
-                            <w:rPr>
-                                <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑" w:hint="eastAsia"/>
-                                <w:sz w:val="18"/>
-                                <w:szCs w:val="18"/>
-                            </w:rPr>
-                            <w:t>${column.ccomment!""}</w:t>
-                        </w:r>
-                    </w:p>
-                </w:tc>
-                <w:tc>
-                    <w:tcPr>
-                        <w:tcW w:w="1418" w:type="dxa"/>
-                        <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
-                    </w:tcPr>
-                    <w:p w:rsidR="005B0811" w:rsidRPr="005B0811" w:rsidRDefault="005B0811" w:rsidP="005B0811">
-                        <w:pPr>
-                            <w:jc w:val="left"/>
-                            <w:rPr>
-                                <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑"/>
-                                <w:sz w:val="18"/>
-                                <w:szCs w:val="18"/>
-                            </w:rPr>
-                        </w:pPr>
-                        <w:r>
-                            <w:rPr>
-                                <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑" w:hint="eastAsia"/>
-                                <w:sz w:val="18"/>
-                                <w:szCs w:val="18"/>
-                            </w:rPr>
-                            <w:t>${column.note!""}</w:t>
-                        </w:r>
-                    </w:p>
-                </w:tc>
-            </w:tr>
-        </w:tbl>
-        <w:p w:rsidR="004562E3" w:rsidRDefault="004562E3" w:rsidP="005B0811">
+            <w:tcPr>
+                <w:tcW w:w="1303" w:type="dxa"/>
+                <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+            </w:tcPr>
+                <w:p w:rsidR="005B0811" w:rsidRPr="005B0811" w:rsidRDefault="005B0811" w:rsidP="005B0811">
             <w:pPr>
                 <w:jc w:val="left"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑"/>
+                    <w:sz w:val="18"/>
+                    <w:szCs w:val="18"/>
+                </w:rPr>
             </w:pPr>
-        </w:p>
-        <w:p w:rsidR="008F7A5A" w:rsidRDefault="008F7A5A" w:rsidP="005B0811">
+                <w:r>
+            <w:rPr>
+                <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑" w:hint="eastAsia"/>
+                <w:sz w:val="18"/>
+                <w:szCs w:val="18"/>
+            </w:rPr>
+                <w:t>${column.coltype}</w:t>
+                </w:r>
+                </w:p>
+                </w:tc>
+                <w:tc>
+            <w:tcPr>
+                <w:tcW w:w="1134" w:type="dxa"/>
+                <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+            </w:tcPr>
+                <w:p w:rsidR="005B0811" w:rsidRPr="005B0811" w:rsidRDefault="005B0811" w:rsidP="005B0811">
             <w:pPr>
                 <w:jc w:val="left"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑"/>
+                    <w:sz w:val="18"/>
+                    <w:szCs w:val="18"/>
+                </w:rPr>
             </w:pPr>
-        </w:p>
+                <w:r>
+            <w:rPr>
+                <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑" w:hint="eastAsia"/>
+                <w:sz w:val="18"/>
+                <w:szCs w:val="18"/>
+            </w:rPr>
+                <w:t>${column.clength!""}</w:t>
+                </w:r>
+                </w:p>
+                </w:tc>
+                <w:tc>
+            <w:tcPr>
+                <w:tcW w:w="1141" w:type="dxa"/>
+                <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+            </w:tcPr>
+                <w:p w:rsidR="005B0811" w:rsidRPr="005B0811" w:rsidRDefault="005B0811" w:rsidP="005B0811">
+            <w:pPr>
+                <w:jc w:val="left"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑"/>
+                    <w:sz w:val="18"/>
+                    <w:szCs w:val="18"/>
+                </w:rPr>
+            </w:pPr>
+                <w:r>
+            <w:rPr>
+                <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑" w:hint="eastAsia"/>
+                <w:sz w:val="18"/>
+                <w:szCs w:val="18"/>
+            </w:rPr>
+                <w:t>${column.isnull}</w:t>
+                </w:r>
+                </w:p>
+                </w:tc>
+                <w:tc>
+            <w:tcPr>
+                <w:tcW w:w="3069" w:type="dxa"/>
+                <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+            </w:tcPr>
+                <w:p w:rsidR="005B0811" w:rsidRPr="005B0811" w:rsidRDefault="005B0811" w:rsidP="005B0811">
+            <w:pPr>
+                <w:jc w:val="left"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑"/>
+                    <w:sz w:val="18"/>
+                    <w:szCs w:val="18"/>
+                </w:rPr>
+            </w:pPr>
+                <w:r>
+            <w:rPr>
+                <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑" w:hint="eastAsia"/>
+                <w:sz w:val="18"/>
+                <w:szCs w:val="18"/>
+            </w:rPr>
+                <w:t>${column.ccomment!""}</w:t>
+                </w:r>
+                </w:p>
+                </w:tc>
+                <w:tc>
+            <w:tcPr>
+                <w:tcW w:w="1418" w:type="dxa"/>
+                <w:shd w:val="clear" w:color="auto" w:fill="auto"/>
+            </w:tcPr>
+                <w:p w:rsidR="005B0811" w:rsidRPr="005B0811" w:rsidRDefault="005B0811" w:rsidP="005B0811">
+            <w:pPr>
+                <w:jc w:val="left"/>
+                <w:rPr>
+                    <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑"/>
+                    <w:sz w:val="18"/>
+                    <w:szCs w:val="18"/>
+                </w:rPr>
+            </w:pPr>
+                <w:r>
+            <w:rPr>
+                <w:rFonts w:ascii="微软雅黑" w:eastAsia="微软雅黑" w:hAnsi="微软雅黑" w:hint="eastAsia"/>
+                <w:sz w:val="18"/>
+                <w:szCs w:val="18"/>
+            </w:rPr>
+                <w:t>${column.note!""}</w:t>
+                </w:r>
+                </w:p>
+                </w:tc>
+                </w:tr>
+            </#list>
+            </w:tbl>
+            <w:p w:rsidR="004562E3" w:rsidRDefault="004562E3" w:rsidP="005B0811">
+                <w:pPr>
+                    <w:jc w:val="left"/>
+                </w:pPr>
+            </w:p>
+            <w:p w:rsidR="008F7A5A" w:rsidRDefault="008F7A5A" w:rsidP="005B0811">
+                <w:pPr>
+                    <w:jc w:val="left"/>
+                </w:pPr>
+            </w:p>
+        </#list>
         <w:sectPr w:rsidR="008F7A5A" w:rsidSect="0050386F">
             <w:pgSz w:w="11906" w:h="16838"/>
             <w:pgMar w:top="1440" w:right="1800" w:bottom="1440" w:left="1800" w:header="851" w:footer="992"

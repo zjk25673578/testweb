@@ -33,7 +33,7 @@ import java.util.Date;
  * date&lt;-----&gt;java.util.Date<br>
  *
  * @author zhaojk
- * @version 5.0
+ * @version 6.0
  */
 public abstract class BaseDao<E> {
 
@@ -79,7 +79,7 @@ public abstract class BaseDao<E> {
      */
     public List<E> queryWithModel(Object... objs) throws Exception {
         // 使用当前的类名作为查询的表名
-        String table = clazz.getName().substring(clazz.getName().lastIndexOf(".") + 1, clazz.getName().length());
+        String table = clazz.getName().substring(clazz.getName().lastIndexOf(".") + 1);
         return query("select * from " + table, clazz, objs);
     }
 
@@ -117,6 +117,15 @@ public abstract class BaseDao<E> {
         return list;
     }
 
+    /**
+     * 查询单列数据
+     * 以String的形式返回
+     *
+     * @param sql
+     * @param objs
+     * @return
+     * @throws Exception
+     */
     public List<String> queryStringList(String sql, Object... objs) throws Exception {
         List<Object> list = queryList(sql, objs);
         List<String> listString = new ArrayList<>();
@@ -124,6 +133,15 @@ public abstract class BaseDao<E> {
         return listString;
     }
 
+    /**
+     * 查询单列数据
+     * 以Integer的形式返回
+     *
+     * @param sql
+     * @param objs
+     * @return
+     * @throws Exception
+     */
     public List<Integer> queryIntegerList(String sql, Object... objs) throws Exception {
         List<Object> list = queryList(sql, objs);
         List<Integer> listInteger = new ArrayList<>();
@@ -139,6 +157,14 @@ public abstract class BaseDao<E> {
         return listInteger;
     }
 
+    /**
+     * 查询数据库的单列内容
+     *
+     * @param sql
+     * @param objs
+     * @return
+     * @throws Exception
+     */
     private List<Object> queryList(String sql, Object... objs) throws Exception {
         ResultSet rs = (ResultSet) commonCheck(sql, objs).get("resultSet");
         PreparedStatement ps = (PreparedStatement) commonCheck(sql, objs).get("prepareStatement");
@@ -295,6 +321,15 @@ public abstract class BaseDao<E> {
         }
     }
 
+    /**
+     * 查询之前的验证
+     * 验证参数个数与'?'占位符的个数是否匹配
+     *
+     * @param sql
+     * @param objs
+     * @return
+     * @throws Exception
+     */
     private Map<String, Object> commonCheck(String sql, Object... objs) throws Exception {
         if (!checkCount(sql, objs)) {
             throw new Exception("占位符的个数与参数个数不相符 !");
@@ -307,7 +342,14 @@ public abstract class BaseDao<E> {
         return r;
     }
 
-    private void circleInitValue(PreparedStatement ps, Object...os) throws Exception {
+    /**
+     * 通过循环赋值sql中占位符的值
+     *
+     * @param ps
+     * @param os
+     * @throws Exception
+     */
+    private void circleInitValue(PreparedStatement ps, Object... os) throws Exception {
         for (int j = 1; j <= os.length; j++) {
             if (os[j - 1] instanceof Date) {
                 os[j - 1] = new Timestamp(((Date) os[j - 1]).getTime());

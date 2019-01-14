@@ -32,6 +32,7 @@
         <input class="layui-btn layui-btn-xs layui-btn-warm" type="submit" value="Search"/>
         <input class="layui-btn layui-btn-xs layui-btn-normal" type="button" value="Reset" onclick="clearKeywords()"/>
         <input class="layui-btn layui-btn-xs" type="button" value="Clear" onclick="clearSelections()"/>
+        <input class="layui-btn layui-btn-primary layui-btn-xs" type="button" value="All" onclick="allSelector()"/>
     </form>
     <table class="layui-table" lay-size="sm">
         <colgroup>

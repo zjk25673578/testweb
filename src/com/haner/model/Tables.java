@@ -1,12 +1,13 @@
 package com.haner.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 /**
  * 表属性实体类
  */
-public class Tables {
+public class Tables implements Serializable {
 
     private Integer ids;
     private String sche;
@@ -90,18 +91,4 @@ public class Tables {
         this.cols = cols;
     }
 
-    @Override
-    public String toString() {
-        return "Tables{" +
-                "ids=" + ids +
-                ", sche='" + sche + '\'' +
-                ", tname='" + tname + '\'' +
-                ", ctime=" + ctime +
-                ", profunc='" + profunc + '\'' +
-                ", tcomment='" + tcomment + '\'' +
-                ", related='" + related + '\'' +
-                ", note='" + note + '\'' +
-                ", cols=" + cols +
-                '}';
-    }
 }

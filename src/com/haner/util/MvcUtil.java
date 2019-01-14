@@ -100,6 +100,22 @@ public class MvcUtil<T> {
     }
 
     /**
+     * 获取上下文路径
+     * @return
+     */
+    public String ctx() {
+        return request.getContextPath();
+    }
+
+    /**
+     * 获取当前服务器的物理路径
+     * @return
+     */
+    public String realPath() {
+        return request.getServletContext().getRealPath("/");
+    }
+
+    /**
      * 重定向
      *
      * @param page

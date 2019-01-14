@@ -16,6 +16,11 @@ public class MyListener implements HttpSessionListener, HttpSessionAttributeList
     public MyListener() {
     }
 
+    /**
+     * 监听session对象创建
+     *
+     * @param se
+     */
     @Override
     public void sessionCreated(HttpSessionEvent se) {
         HttpSession session = se.getSession();
@@ -23,7 +28,7 @@ public class MyListener implements HttpSessionListener, HttpSessionAttributeList
     }
 
     /**
-     * 监听session对象
+     * 监听session对象销毁
      * 释放java.sql.Connection的资源
      *
      * @param se
@@ -51,6 +56,10 @@ public class MyListener implements HttpSessionListener, HttpSessionAttributeList
 
     }
 
+    /**
+     * session对象属性添加事件的监听
+     * @param se
+     */
     @Override
     public void attributeAdded(HttpSessionBindingEvent se) {
         HttpSession session = se.getSession();

@@ -1,9 +1,11 @@
 package com.haner.model;
 
+import java.io.Serializable;
+
 /**
  * 列属性实体类
  */
-public class Columns {
+public class Columns implements Serializable {
 
     private Integer ids;
     private String sche;
@@ -105,19 +107,4 @@ public class Columns {
         this.table = table;
     }
 
-    @Override
-    public String toString() {
-        return "Columns{" +
-                "ids=" + ids +
-                ", sche='" + sche + '\'' +
-                ", tname='" + tname + '\'' +
-                ", colname='" + colname + '\'' +
-                ", coltype='" + coltype + '\'' +
-                ", clength='" + clength + '\'' +
-                ", isnull='" + isnull + '\'' +
-                ", related='" + related + '\'' +
-                ", ccomment='" + ccomment + '\'' +
-                ", note='" + note + '\'' +
-                '}';
-    }
 }

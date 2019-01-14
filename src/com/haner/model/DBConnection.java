@@ -25,6 +25,12 @@ public class DBConnection {
         this.password = "";
     }
 
+    /**
+     * 初始化的验证
+     * 对username, address, dbtype做一个简单的非空判断
+     *
+     * @return
+     */
     private Map<String, Object> initCheck() {
         String[] fields = {username, address, dbtype};
         Map<String, Object> result = new HashMap<>();
@@ -71,6 +77,15 @@ public class DBConnection {
         this.driverClass = driverClass;
     }
 
+    /**
+     * 获取数据库的链接
+     * 这里获取的链接是将要生成文档的数据库
+     * 目前只做了mysql数据库的支持
+     * 通过访问mysql中information_schema数据库中的信息表来获取需要生成的文档信息
+     *
+     * @return
+     * @throws Exception
+     */
     public Connection getConnection() throws Exception {
         Map<String, Object> map = initCheck();
         boolean flag = Boolean.parseBoolean(map.get("success").toString());
@@ -82,7 +97,6 @@ public class DBConnection {
                     if (docDbname != null && !"".equals(docDbname.trim())) {
                         db = "information_schema";
                     } else {
-                        // db = "mydb";
                         throw new Exception("没有获取到任何远程数据库名称..");
                     }
                     String url_m = URL_MYSQL_PRE + address + MYSQL_PORT + db + URL_MYSQL_SUF;
@@ -136,17 +150,4 @@ public class DBConnection {
         return connection == null || connection.isClosed();
     }
 
-    @Override
-    public String toString() {
-        return "DBConnection{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", port='" + port + '\'' +
-                ", driverClass='" + driverClass + '\'' +
-                ", address='" + address + '\'' +
-                ", dbtype='" + dbtype + '\'' +
-                ", docDbname='" + docDbname + '\'' +
-                ", connection=" + connection +
-                '}';
-    }
 }

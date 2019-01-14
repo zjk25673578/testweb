@@ -1,9 +1,11 @@
 package com.haner.model;
 
+import java.io.Serializable;
+
 /**
  * 常用数据库属性实体类(对应表)
  */
-public class DBCommons {
+public class DBCommons implements Serializable {
     private Integer ids;
     private String username;
     private String password;

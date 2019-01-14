@@ -10,7 +10,7 @@ import java.sql.Connection;
 import java.util.*;
 
 /**
- * 业务逻辑
+ * 表信息业务逻辑
  */
 public class TablesService {
 
@@ -55,8 +55,15 @@ public class TablesService {
         return tablesDao.query(sql, dbname);
     }
 
+    /**
+     * 获取指定表主键的数据
+     *
+     * @param tids
+     * @return
+     * @throws Exception
+     */
     public List<Tables> tables(String... tids) throws Exception {
-        if (tids != null && tids .length > 0) {
+        if (tids != null && tids.length > 0) {
             StringBuilder sql = new StringBuilder("select * from db_tables where ids in (");
             for (int i = 0; i < tids.length; i++) {
                 sql.append("?");
@@ -65,7 +72,7 @@ public class TablesService {
                 }
             }
             sql.append(")");
-            return tablesDao.query(sql.toString(), tids);
+            return tablesDao.query(sql.toString(), (Object[]) tids);
         }
         return null;
     }
@@ -133,9 +140,9 @@ public class TablesService {
      * 清空表属性信息表
      */
     public void delTables() {
-        String sql = "delete from db_tables";
+        String sql = "delete from db_tables where sche=?";
         try {
-            tablesDao.update(sql);
+            tablesDao.update(sql, sourcedocDao.getDbConnection().getDocDbname());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -179,6 +186,14 @@ public class TablesService {
         return tablesDao.update(sql, tables.getProfunc(), tables.getRelated(), tables.getNote(), tables.getIds());
     }
 
+    /**
+     * 获取指定表的导出数据
+     * 若没有指定表, 则导出全部数据表
+     *
+     * @param ids
+     * @return
+     * @throws Exception
+     */
     public Map<String, Object> exportData(String ids) throws Exception {
         String[] tableIds = {};
         String sche = this.sourcedocDao.getDbConnection().getDocDbname();
@@ -188,6 +203,7 @@ public class TablesService {
             // 执行全表操作
             tableIds = selectAllTableIdBySche(sche).toArray(tableIds);
         }
+        // 先进行一遍查询, 将需要导出的表先存储到存储数据库中
         for (String tableId : tableIds) {
             try {
                 String tableName = this.selectTableById(tableId).getTname();
@@ -203,6 +219,7 @@ public class TablesService {
 
         for (Tables table : tableList) {
             String tname = table.getTname();
+            // 根据表名获取列数据
             List<Columns> colList = columnsService.columns(tname, sche);
             table.setCols(colList);
         }

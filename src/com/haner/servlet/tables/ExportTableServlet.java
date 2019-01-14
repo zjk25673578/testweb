@@ -13,7 +13,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.util.Map;
@@ -37,7 +39,10 @@ public class ExportTableServlet extends HttpServlet {
         byte[] bytes = null;
         try {
             Map<String, Object> dataMap = tablesService.exportData(ids);
-            bytes = WordsUtil.createXml2Doc(dataMap);
+            // 直接将xml转换成doc格式的文件, 不太稳定, 在有些办公软件上的不同版本中可能会打不开
+            // bytes = WordsUtil.createXml2Doc(dataMap);
+            // 换成docx格式的下载的字节数组
+            bytes = WordsUtil.createXml2Docx(dataMap, mvc.realPath());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -45,7 +50,7 @@ public class ExportTableServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         String outName = FileNameUtil.yearMonthDate() + '-' + sourcedocDao.getDbConnection().getDocDbname() + "数据库文档";
         String dbName = new String(outName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
-        response.setHeader("Content-Disposition", "attachment; filename=" + dbName + ".doc");
+        response.setHeader("Content-Disposition", "attachment; filename=" + dbName + ".docx");
         //获取响应报文输出流对象
         ServletOutputStream out = response.getOutputStream();
         if (bytes == null) {
