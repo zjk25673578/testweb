@@ -30,21 +30,6 @@ public class WordsUtil {
     }
 
     /**
-     * MainTest
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        try {
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("d:/dataMap.txt"));
-            Map<String, Object> dataMap = (Map<String, Object>) ois.readObject();
-            createXml2Docx(dataMap, "");
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * 生成docx文件, 并存储到当前项目下
      * 原理:
      * 将docx文件后缀名修改为压缩包的类型(比如: zip)
@@ -96,7 +81,10 @@ public class WordsUtil {
      * @throws Exception
      */
     public static byte[] file2Bytes(File doc) throws Exception {
-        if (doc != null && doc.exists()) {
+        if (doc == null) {
+            throw new Exception("com.haner.util.WordsUtil.file2Bytes(File doc), doc参数为null");
+        }
+        if (doc.exists()) {
             InputStream inputStream = new FileInputStream(doc);//原始输入流
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             byte[] buffer = new byte[1024 * 50]; // 每次读50kb
@@ -109,6 +97,8 @@ public class WordsUtil {
             dataBytes = baos.toByteArray();
             baos.close();
             return dataBytes;
+        } else {
+            System.err.println(doc.getAbsolutePath() + "不存在 !");
         }
         return new byte[0];
     }
